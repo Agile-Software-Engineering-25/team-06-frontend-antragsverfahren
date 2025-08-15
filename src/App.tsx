@@ -6,6 +6,9 @@ import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy';
 import './i18n';
 import { Provider } from 'react-redux';
 import store from '@stores/index.ts';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/de';
 
 const theme = createCustomTheme({
   colorSchemes: {
@@ -34,15 +37,17 @@ type AppProps = {
 
 function App({ basename }: AppProps) {
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
-        <JoyCssVarsProvider>
-          <BrowserRouter basename={basename}>
-            <RoutingComponent />
-          </BrowserRouter>
-        </JoyCssVarsProvider>
-      </ThemeProvider>
-    </Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+      <Provider store={store}>
+        <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
+          <JoyCssVarsProvider>
+            <BrowserRouter basename={basename}>
+              <RoutingComponent />
+            </BrowserRouter>
+          </JoyCssVarsProvider>
+        </ThemeProvider>
+      </Provider>
+    </LocalizationProvider>
   );
 }
 
