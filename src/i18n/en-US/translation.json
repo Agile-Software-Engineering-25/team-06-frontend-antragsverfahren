@@ -11,6 +11,32 @@
       "getWeatherButton": "GET WEATHER",
       "weatherHeader": "Current Weather",
       "temperature": "Temperature"
+    },
+    "nachklausur": {
+      "title": "Re-examination Application",
+      "description": "Here you can apply for a re-examination.",
+      "nameLabel": "Name",
+      "matrikelnummerLabel": "Student number",
+      "modulLabel": "Module",
+      "modulAuswählen": "Select Module",
+      "prüfungsterminLabel": "Exam date",
+      "dateiHochladenLabel": "Upload File",
+      "submitError": "Please fill out all fields.",
+      "submitButton": "Submit Application"
+    },
+    "bachelorAnmeldung": {
+      "title": "Bachelor Registration",
+      "description": "Here you can register for the Bachelor examination.",
+      "nameLabel": "Name",
+      "matrikelnummerLabel": "Student number",
+      "studiengangLabel": "Course of Study",
+      "studiengangAuswählen": "Select Course of Study",
+      "themaLabel": "Topic",
+      "erstPrüferLabel": "First Examiner",
+      "zweitPrüferLabel": "Second Examiner",
+      "prüfungsterminLabel": "Exam date",
+      "submitError": "Please fill out all fields.",
+      "submitButton": "Submit Application"
     }
   }
 }
