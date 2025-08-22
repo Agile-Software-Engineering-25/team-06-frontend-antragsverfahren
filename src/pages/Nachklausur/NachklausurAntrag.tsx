@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Dayjs } from 'dayjs';
 import {
   Box,
@@ -12,32 +12,51 @@ import {
 } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
+import type { NachklausurAntrag } from '@/@custom-types/formTypes';
+import FileUpload from '@/components/FileUpload/FileUpload';
+import useApiForm from '@/hooks/useApiForm';
 
 export default function NachklausurAntrag() {
   const { t } = useTranslation();
+  const { createNachklausurAntrag } = useApiForm();
 
-  const [name, setName] = useState('');
-  const [matrikelnummer, setMatrikelnummer] = useState('');
-  const [modul, setModul] = useState('');
-  const [prüfungstermin, setPrüfungstermin] = useState<Dayjs | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  const name = useRef('');
+  const matrikelnummer = useRef('');
+  const modul = useRef('');
+  const prüfungstermin = useRef<Dayjs | null>(null);
+  const file = useRef<File | null>(null);
+  // const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Basic validation
-    if (!name || !matrikelnummer || !modul || !prüfungstermin || !file) {
-      alert(t('pages.nachklausur.submitError'));
+
+    if (
+      !name.current ||
+      !matrikelnummer.current ||
+      !modul.current ||
+      !prüfungstermin.current ||
+      !file.current
+    ) {
+      alert(
+        t('pages.forms.nachklausur.submitError') +
+          ' (' +
+          t(
+            `pages.forms.nachklausur.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin') || (!file.current && 'dateiHochladen')}Label`
+          ) +
+          ')'
+      );
       return;
     }
 
-    // Submit logic here
-    console.log({
-      name,
-      matrikelnummer,
-      modul,
-      prüfungstermin: prüfungstermin.format('DD-MM-YYYY'),
-      file,
-    });
+    const nachklausurAntrag: NachklausurAntrag = {
+      name: name.current,
+      matrikelnummer: matrikelnummer.current,
+      modul: modul.current,
+      prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
+      file: file.current!,
+    };
+
+    await createNachklausurAntrag(nachklausurAntrag);
   };
 
   return (
@@ -48,71 +67,64 @@ export default function NachklausurAntrag() {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        maxWidth: 500,
+        width: '70%',
         mx: 'auto',
-        mt: 4,
+        my: 2,
         p: 2,
         border: '1px solid #ccc',
         borderRadius: 'md',
       }}
     >
-      <Typography level="h4">{t('pages.nachklausur.title')}</Typography>
+      <Typography level="h4">{t('pages.forms.nachklausur.title')}</Typography>
 
       <FormControl>
-        <FormLabel>{t('pages.nachklausur.nameLabel')}</FormLabel>
+        <FormLabel>{t('pages.forms.nachklausur.nameLabel')}</FormLabel>
+        <Input onChange={(e) => (name.current = e.target.value)} required />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>
+          {t('pages.forms.nachklausur.matrikelnummerLabel')}
+        </FormLabel>
         <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => (matrikelnummer.current = e.target.value)}
           required
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.nachklausur.matrikelnummerLabel')}</FormLabel>
-        <Input
-          value={matrikelnummer}
-          onChange={(e) => setMatrikelnummer(e.target.value)}
-          required
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>{t('pages.nachklausur.modulLabel')}</FormLabel>
+        <FormLabel>{t('pages.forms.nachklausur.modulLabel')}</FormLabel>
         <Select
-          value={modul}
-          onChange={(_, newValue) => setModul(newValue ?? '')}
+          onChange={(_, newValue: string | null) =>
+            (modul.current = newValue ?? '')
+          }
           required
-          placeholder={t('pages.nachklausur.modulAuswählen')}
+          placeholder={t('pages.forms.nachklausur.modulAuswählen')}
         >
           <Option value="Mathematik">Mathematik</Option>
           <Option value="Informatik">Informatik</Option>
           <Option value="Physik">Physik</Option>
-          {/* Add more modules as needed */}
         </Select>
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.nachklausur.prüfungsterminLabel')}</FormLabel>
+        <FormLabel>
+          {t('pages.forms.nachklausur.prüfungsterminLabel')}
+        </FormLabel>
         <DatePicker
-          value={prüfungstermin}
-          onChange={(newDate) => setPrüfungstermin(newDate)}
+          onChange={(newDate) => (prüfungstermin.current = newDate)}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.nachklausur.dateiHochladenLabel')}</FormLabel>
-        <Input
-          type="file"
-          onChange={(e) => {
-            if (e.target.files && e.target.files.length > 0) {
-              setFile(e.target.files[0]);
-            }
-          }}
-        />
+        <FormLabel>
+          {t('pages.forms.nachklausur.dateiHochladenLabel')}
+        </FormLabel>
+        <FileUpload onFile={(f: File | null) => (file.current = f)} />
       </FormControl>
 
       <Button type="submit" variant="solid" color="primary">
-        {t('pages.nachklausur.submitButton')}
+        {t('pages.forms.nachklausur.submitButton')}
       </Button>
     </Box>
   );

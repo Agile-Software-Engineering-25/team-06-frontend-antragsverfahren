@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Dayjs } from 'dayjs';
 import {
   Box,
@@ -12,43 +12,55 @@ import {
 } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
+import useApiForm from '@/hooks/useApiForm';
+import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
 
 export default function BachelorAnmeldung() {
   const { t } = useTranslation();
+  const { createBachelorAnmeldung } = useApiForm();
 
-  const [name, setName] = useState('');
-  const [matrikelnummer, setMatrikelnummer] = useState('');
-  const [modul, setModul] = useState('');
-  const [prüfungstermin, setPrüfungstermin] = useState<Dayjs | null>(null);
-  const [thema, setThema] = useState('');
-  const [firstExaminer, setFirstExaminer] = useState('');
-  const [secondExaminer, setSecondExaminer] = useState('');
+  const name = useRef('');
+  const matrikelnummer = useRef('');
+  const modul = useRef('');
+  const prüfungstermin = useRef<Dayjs | null>(null);
+  const thema = useRef('');
+  const firstExaminer = useRef('');
+  const secondExaminer = useRef('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Basic validation
     if (
-      !name ||
-      !matrikelnummer ||
-      !modul ||
-      !prüfungstermin ||
-      !thema ||
-      !firstExaminer
+      !name.current ||
+      !matrikelnummer.current ||
+      !modul.current ||
+      !prüfungstermin.current ||
+      !thema.current ||
+      !firstExaminer.current ||
+      !secondExaminer.current
     ) {
-      alert(t('pages.bachelorAnmeldung.submitError'));
+      alert(
+        t('pages.forms.bachelorAnmeldung.submitError') +
+          ' (' +
+          t(
+            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!firstExaminer.current && 'erstPrüfer') || (!secondExaminer.current && 'zweitPrüfer')}Label`
+          ) +
+          ')'
+      );
       return;
     }
 
-    // Submit logic here
-    console.log({
-      name,
-      matrikelnummer,
-      modul,
-      prüfungstermin: prüfungstermin.format('DD-MM-YYYY'),
-      thema,
-      firstExaminer,
-      secondExaminer,
-    });
+    const bachelorAnmeldung: BachelorAnmeldung = {
+      name: name.current,
+      matrikelnummer: matrikelnummer.current,
+      modul: modul.current,
+      prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
+      thema: thema.current,
+      firstExaminer: firstExaminer.current,
+      secondExaminer: secondExaminer.current,
+    };
+
+    await createBachelorAnmeldung(bachelorAnmeldung);
   };
 
   return (
@@ -59,44 +71,43 @@ export default function BachelorAnmeldung() {
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        maxWidth: 500,
+        width: '70%',
         mx: 'auto',
-        mt: 4,
+        my: 2,
         p: 2,
         border: '1px solid #ccc',
         borderRadius: 'md',
       }}
     >
+      <Typography level="h4">
+        {t('pages.forms.bachelorAnmeldung.title')}
+      </Typography>
 
-      <Typography level="h4">{t('pages.bachelorAnmeldung.title')}</Typography>
-      
       <FormControl>
-        <FormLabel>{t('pages.bachelorAnmeldung.nameLabel')}</FormLabel>
+        <FormLabel>{t('pages.forms.bachelorAnmeldung.nameLabel')}</FormLabel>
+        <Input onChange={(e) => (name.current = e.target.value)} required />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>
+          {t('pages.forms.bachelorAnmeldung.matrikelnummerLabel')}
+        </FormLabel>
         <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => (matrikelnummer.current = e.target.value)}
           required
         />
       </FormControl>
 
       <FormControl>
         <FormLabel>
-          {t('pages.bachelorAnmeldung.matrikelnummerLabel')}
+          {t('pages.forms.bachelorAnmeldung.studiengangLabel')}
         </FormLabel>
-        <Input
-          value={matrikelnummer}
-          onChange={(e) => setMatrikelnummer(e.target.value)}
-          required
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>{t('pages.bachelorAnmeldung.studiengangLabel')}</FormLabel>
         <Select
-          value={modul}
-          onChange={(_, newValue) => setModul(newValue ?? '')}
+          onChange={(_, newValue: string | null) =>
+            (modul.current = newValue ?? '')
+          }
           required
-          placeholder={t('pages.bachelorAnmeldung.studiengangAuswählen')}
+          placeholder={t('pages.forms.bachelorAnmeldung.studiengangAuswählen')}
         >
           <Option value="Angewandte Mathematik (B.Sc.)">
             Angewandte Mathematik (B.Sc.)
@@ -115,44 +126,41 @@ export default function BachelorAnmeldung() {
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.bachelorAnmeldung.themaLabel')}</FormLabel>
-        <Input
-          value={thema}
-          onChange={(e) => setThema(e.target.value)}
-          required
-        />
+        <FormLabel>{t('pages.forms.bachelorAnmeldung.themaLabel')}</FormLabel>
+        <Input onChange={(e) => (thema.current = e.target.value)} required />
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.bachelorAnmeldung.erstPrüferLabel')}</FormLabel>
+        <FormLabel>
+          {t('pages.forms.bachelorAnmeldung.erstPrüferLabel')}
+        </FormLabel>
         <Input
-          value={firstExaminer}
-          onChange={(e) => setFirstExaminer(e.target.value)}
-          required
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>{t('pages.bachelorAnmeldung.zweitPrüferLabel')}</FormLabel>
-        <Input
-          value={secondExaminer}
-          onChange={(e) => setSecondExaminer(e.target.value)}
+          onChange={(e) => (firstExaminer.current = e.target.value)}
           required
         />
       </FormControl>
 
       <FormControl>
         <FormLabel>
-          {t('pages.bachelorAnmeldung.prüfungsterminLabel')}
+          {t('pages.forms.bachelorAnmeldung.zweitPrüferLabel')}
+        </FormLabel>
+        <Input
+          onChange={(e) => (secondExaminer.current = e.target.value)}
+          required
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>
+          {t('pages.forms.bachelorAnmeldung.prüfungsterminLabel')}
         </FormLabel>
         <DatePicker
-          value={prüfungstermin}
-          onChange={(newDate) => setPrüfungstermin(newDate)}
+          onChange={(newDate) => (prüfungstermin.current = newDate)}
         />
       </FormControl>
 
       <Button type="submit" variant="solid" color="primary">
-        {t('pages.bachelorAnmeldung.submitButton')}
+        {t('pages.forms.bachelorAnmeldung.submitButton')}
       </Button>
     </Box>
   );

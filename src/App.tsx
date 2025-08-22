@@ -9,6 +9,7 @@ import store from '@stores/index.ts';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/de';
+import LanguageSelectorComponent from './components/LanguageSelectorComponent/LanguageSelectorComponent';
 
 const theme = createCustomTheme({
   colorSchemes: {
@@ -41,6 +42,7 @@ function App({ basename }: AppProps) {
       <Provider store={store}>
         <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
           <JoyCssVarsProvider>
+            <LanguageSelectorComponent />
             <BrowserRouter basename={basename}>
               <RoutingComponent />
             </BrowserRouter>

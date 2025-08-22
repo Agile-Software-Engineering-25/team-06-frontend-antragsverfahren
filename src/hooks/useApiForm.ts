@@ -1,0 +1,29 @@
+import useAxiosInstance from '@hooks/useAxiosInstance';
+import { BACKEND_BASE_URL } from '@/config';
+import { useCallback } from 'react';
+import type { BachelorAnmeldung, NachklausurAntrag } from '@/@custom-types/formTypes';
+
+export default function useApiForm() {
+  console.log(BACKEND_BASE_URL);
+  const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
+
+  const createNachklausurAntrag = useCallback(
+    async (data: NachklausurAntrag) => {
+      const response = await axiosInstance.post('/nachklausur', data);
+      console.log('Nachklausur Antrag erstellt:', response.data);
+      return response.data;
+    },
+    [axiosInstance]
+  );
+
+  const createBachelorAnmeldung = useCallback(
+    async (data: BachelorAnmeldung) => {
+      const response = await axiosInstance.post('/bachelorarbeit', data);
+      console.log('Bachelor Anmeldung erstellt:', response.data);
+      return response.data;
+    },
+    [axiosInstance]
+  );
+
+  return { createNachklausurAntrag, createBachelorAnmeldung };
+}

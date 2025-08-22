@@ -12,31 +12,40 @@
       "weatherHeader": "Aktuelles Wetter",
       "temperature": "Temperatur"
     },
-    "nachklausur": {
-      "title": "Nachklausur Application",
-      "description": "Here you can apply for a Nachklausur.",
-      "nameLabel": "Name",
-      "matrikelnummerLabel": "Matrikelnummer",
-      "modulLabel": "Modul",
-      "modulAuswählen": "Modul auswählen",
-      "prüfungsterminLabel": "Prüfungstermin",
-      "dateiHochladenLabel": "Datei hochladen",
-      "submitError": "Bitte füllen Sie alle Felder aus.",
-      "submitButton": "Antrag einreichen"
-    },
-    "bachelorAnmeldung": {
-      "title": "Bachelor Anmeldung",
-      "description": "Hier können Sie sich für die Bachelorprüfung anmelden.",
-      "nameLabel": "Name",
-      "matrikelnummerLabel": "Matrikelnummer",
-      "studiengangLabel": "Studiengang",
-      "studiengangAuswählen": "Studiengang auswählen",
-      "themaLabel": "Thema",
-      "erstPrüferLabel": "Erstprüfer",
-      "zweitPrüferLabel": "Zweitprüfer",
-      "prüfungsterminLabel": "Prüfungstermin",
-      "submitError": "Bitte füllen Sie alle Felder aus.",
-      "submitButton": "Anmeldung einreichen"
+    "forms": {
+      "nachklausur": {
+        "accordion": "Für eine Nachklausur beantragen:",
+        "title": "Nachklausurantrag",
+        "description": "Hier können Sie einen Nachklausurantrag stellen.",
+        "nameLabel": "Name",
+        "matrikelnummerLabel": "Matrikelnummer",
+        "modulLabel": "Modul",
+        "modulAuswählen": "Modul auswählen",
+        "prüfungsterminLabel": "Prüfungstermin",
+        "dateiHochladenLabel": "Datei hochladen",
+        "uploadBtn": "Hochladen",
+        "submitError": "Bitte füllen Sie alle Felder aus.",
+        "submitButton": "Antrag einreichen"
+      },
+      "bachelorAnmeldung": {
+        "accordion": "Für die Bachelorprüfung anmelden:",
+        "title": "Bachelor Anmeldung",
+        "description": "Hier können Sie sich für die Bachelorprüfung anmelden.",
+        "nameLabel": "Name",
+        "matrikelnummerLabel": "Matrikelnummer",
+        "studiengangLabel": "Studiengang",
+        "studiengangAuswählen": "Studiengang auswählen",
+        "themaLabel": "Thema",
+        "erstPrüferLabel": "Erstprüfer",
+        "zweitPrüferLabel": "Zweitprüfer",
+        "prüfungsterminLabel": "Prüfungstermin",
+        "submitError": "Bitte füllen Sie alle Felder aus.",
+        "submitButton": "Anmeldung einreichen"
+      },
+      "studienbescheinigung": {
+        "accordion": "Studienbescheinigung anfordern:",
+        "buttonLabel": "Anfordern"
+      }
     }
   }
 }

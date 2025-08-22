@@ -12,31 +12,40 @@
       "weatherHeader": "Current Weather",
       "temperature": "Temperature"
     },
-    "nachklausur": {
-      "title": "Re-examination Application",
-      "description": "Here you can apply for a re-examination.",
-      "nameLabel": "Name",
-      "matrikelnummerLabel": "Student number",
-      "modulLabel": "Module",
-      "modulAuswählen": "Select Module",
-      "prüfungsterminLabel": "Exam date",
-      "dateiHochladenLabel": "Upload File",
-      "submitError": "Please fill out all fields.",
-      "submitButton": "Submit Application"
-    },
-    "bachelorAnmeldung": {
-      "title": "Bachelor Registration",
-      "description": "Here you can register for the Bachelor examination.",
-      "nameLabel": "Name",
-      "matrikelnummerLabel": "Student number",
-      "studiengangLabel": "Course of Study",
-      "studiengangAuswählen": "Select Course of Study",
-      "themaLabel": "Topic",
-      "erstPrüferLabel": "First Examiner",
-      "zweitPrüferLabel": "Second Examiner",
-      "prüfungsterminLabel": "Exam date",
-      "submitError": "Please fill out all fields.",
-      "submitButton": "Submit Application"
+    "forms": {
+      "nachklausur": {
+        "accordion": "Apply for a re-examination:",
+        "title": "Re-examination Application",
+        "description": "Here you can apply for a re-examination.",
+        "nameLabel": "Name",
+        "matrikelnummerLabel": "Student number",
+        "modulLabel": "Module",
+        "modulAuswählen": "Select Module",
+        "prüfungsterminLabel": "Exam date",
+        "dateiHochladenLabel": "Upload File",
+        "uploadBtn": "Upload",
+        "submitError": "Please fill out all fields.",
+        "submitButton": "Submit Application"
+      },
+      "bachelorAnmeldung": {
+        "accordion": "Register for the Bachelor examination:",
+        "title": "Bachelor Registration",
+        "description": "Here you can register for the Bachelor examination.",
+        "nameLabel": "Name",
+        "matrikelnummerLabel": "Student number",
+        "studiengangLabel": "Course of Study",
+        "studiengangAuswählen": "Select Course of Study",
+        "themaLabel": "Topic",
+        "erstPrüferLabel": "First Examiner",
+        "zweitPrüferLabel": "Second Examiner",
+        "prüfungsterminLabel": "Exam date",
+        "submitError": "Please fill out all fields.",
+        "submitButton": "Submit Application"
+      },
+      "studienbescheinigung": {
+        "accordion": "Request study certificate:",
+        "buttonLabel": "Request"
+      }
     }
   }
 }
