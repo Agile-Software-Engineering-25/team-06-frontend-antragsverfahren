@@ -9,9 +9,7 @@ const RoutingComponent = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/weather" element={<Weather />} />
-      <Route path="/nachklausur" element={<NachklausurAntrag />} />
-      <Route path="/bachelorAnmeldung" element={<BachelorAnmeldung />} />
+      {/* <Route path="/weather" element={<Weather />} /> */}
       <Route path="/forms" element={<FormsPage />} />
     </Routes>
   );

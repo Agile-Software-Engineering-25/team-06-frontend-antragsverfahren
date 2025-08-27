@@ -25,5 +25,10 @@ export default function useApiForm() {
     [axiosInstance]
   );
 
-  return { createNachklausurAntrag, createBachelorAnmeldung };
+  const getStudienbescheinigung = useCallback(async () => {
+    const response = await axiosInstance.post('/studienbescheinigung', {}, { responseType: 'blob' });
+    return response.data;
+  }, [axiosInstance]);
+
+  return { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung };
 }

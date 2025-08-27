@@ -44,7 +44,8 @@
       },
       "studienbescheinigung": {
         "accordion": "Studienbescheinigung anfordern:",
-        "buttonLabel": "Anfordern"
+        "buttonLabel": "Anfordern",
+        "error": "Fehler beim Anfordern der Studienbescheinigung."
       }
     }
   }

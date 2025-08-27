@@ -14,11 +14,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
 import FileUpload from '@/components/FileUpload/FileUpload';
-import useApiForm from '@/hooks/useApiForm';
 
-export default function NachklausurAntrag() {
+export default function NachklausurAntrag({ onApi }: { onApi: (data: NachklausurAntrag) => Promise<void> }) {
   const { t } = useTranslation();
-  const { createNachklausurAntrag } = useApiForm();
 
   const name = useRef('');
   const matrikelnummer = useRef('');
@@ -56,7 +54,7 @@ export default function NachklausurAntrag() {
       file: file.current!,
     };
 
-    await createNachklausurAntrag(nachklausurAntrag);
+    await onApi(nachklausurAntrag);
   };
 
   return (

@@ -44,7 +44,8 @@
       },
       "studienbescheinigung": {
         "accordion": "Request study certificate:",
-        "buttonLabel": "Request"
+        "buttonLabel": "Request",
+        "error": "Error requesting study certificate."
       }
     }
   }

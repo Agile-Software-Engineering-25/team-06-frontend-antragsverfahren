@@ -37,6 +37,10 @@ type AppProps = {
 };
 
 function App({ basename }: AppProps) {
+  // Simuliere Authentifizierung: Setze Dummy-Token beim App-Start
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('auth_token', 'mocked-entraid-token');
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
       <Provider store={store}>

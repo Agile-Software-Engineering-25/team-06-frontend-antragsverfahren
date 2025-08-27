@@ -12,12 +12,10 @@ import {
 } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
-import useApiForm from '@/hooks/useApiForm';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
 
-export default function BachelorAnmeldung() {
+export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnmeldung) => Promise<void> }) {
   const { t } = useTranslation();
-  const { createBachelorAnmeldung } = useApiForm();
 
   const name = useRef('');
   const matrikelnummer = useRef('');
@@ -60,7 +58,7 @@ export default function BachelorAnmeldung() {
       secondExaminer: secondExaminer.current,
     };
 
-    await createBachelorAnmeldung(bachelorAnmeldung);
+    await onApi(bachelorAnmeldung);
   };
 
   return (
