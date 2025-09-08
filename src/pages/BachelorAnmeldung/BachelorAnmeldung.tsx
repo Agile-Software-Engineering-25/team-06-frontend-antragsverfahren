@@ -72,9 +72,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
         width: '70%',
         mx: 'auto',
         my: 2,
-        p: 2,
-        border: '1px solid #ccc',
-        borderRadius: 'md',
+        p: 2
       }}
     >
       <Typography level="h4">
