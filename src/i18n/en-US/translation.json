@@ -22,7 +22,6 @@
         "modulLabel": "Module",
         "modulAuswählen": "Select Module",
         "prüfungsterminLabel": "Exam date",
-        "dateiHochladenLabel": "Upload File",
         "uploadBtn": "Upload",
         "submitError": "Please fill out all fields.",
         "submitButton": "Submit Application"
