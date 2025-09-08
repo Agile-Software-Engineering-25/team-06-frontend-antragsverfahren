@@ -43,9 +43,9 @@
         "submitButton": "Anmeldung einreichen"
       },
       "studienbescheinigung": {
-        "accordion": "Studienbescheinigung anfordern:",
-        "buttonLabel": "Anfordern",
-        "error": "Fehler beim Anfordern der Studienbescheinigung."
+        "accordion": "Studienbescheinigung herunterladen:",
+        "buttonLabel": "Herunterladen",
+        "error": "Fehler beim Herunterladen der Studienbescheinigung."
       }
     }
   }
