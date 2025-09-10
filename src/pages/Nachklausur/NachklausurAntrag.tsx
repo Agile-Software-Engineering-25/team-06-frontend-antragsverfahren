@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
 import {
   Box,
@@ -13,7 +13,6 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
-import FileUpload from '@/components/FileUpload/FileUpload';
 
 export default function NachklausurAntrag({ onApi }: { onApi: (data: NachklausurAntrag) => Promise<void> }) {
   const { t } = useTranslation();
@@ -39,7 +38,7 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
         t('pages.forms.nachklausur.submitError') +
           ' (' +
           t(
-            `pages.forms.nachklausur.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin') || (!file.current && 'dateiHochladen')}Label`
+            `pages.forms.nachklausur.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
           ) +
           ')'
       );
@@ -110,13 +109,6 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
         <DatePicker
           onChange={(newDate) => (prüfungstermin.current = newDate)}
         />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.nachklausur.dateiHochladenLabel')}
-        </FormLabel>
-        <FileUpload onFile={(f: File | null) => (file.current = f)} />
       </FormControl>
 
       <Button type="submit" variant="solid" color="primary">
