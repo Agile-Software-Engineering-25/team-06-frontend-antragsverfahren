@@ -35,8 +35,7 @@
         "studiengangLabel": "Studiengang",
         "studiengangAuswählen": "Studiengang auswählen",
         "themaLabel": "Thema",
-        "erstPrüferLabel": "Erstprüfer",
-        "zweitPrüferLabel": "Zweitprüfer",
+        "prüferLabel": "Prüfer",
         "prüfungsterminLabel": "Prüfungstermin",
         "submitError": "Bitte füllen Sie alle Felder aus.",
         "submitButton": "Anmeldung einreichen"

@@ -22,8 +22,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
-  const firstExaminer = useRef('');
-  const secondExaminer = useRef('');
+  const examiner = useRef('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,14 +33,13 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
       !modul.current ||
       !prüfungstermin.current ||
       !thema.current ||
-      !firstExaminer.current ||
-      !secondExaminer.current
+      !examiner.current
     ) {
       alert(
         t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
-            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!firstExaminer.current && 'erstPrüfer') || (!secondExaminer.current && 'zweitPrüfer')}Label`
+            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!examiner.current && 'prüfer')}Label`
           ) +
           ')'
       );
@@ -54,8 +52,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
       thema: thema.current,
-      firstExaminer: firstExaminer.current,
-      secondExaminer: secondExaminer.current,
+      examiner: examiner.current,
     };
 
     await onApi(bachelorAnmeldung);
@@ -128,20 +125,10 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
 
       <FormControl>
         <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.erstPrüferLabel')}
+          {t('pages.forms.bachelorAnmeldung.prüferLabel')}
         </FormLabel>
         <Input
-          onChange={(e) => (firstExaminer.current = e.target.value)}
-          required
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.zweitPrüferLabel')}
-        </FormLabel>
-        <Input
-          onChange={(e) => (secondExaminer.current = e.target.value)}
+          onChange={(e) => (examiner.current = e.target.value)}
           required
         />
       </FormControl>

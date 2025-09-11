@@ -35,8 +35,7 @@
         "studiengangLabel": "Course of Study",
         "studiengangAuswählen": "Select Course of Study",
         "themaLabel": "Topic",
-        "erstPrüferLabel": "First Examiner",
-        "zweitPrüferLabel": "Second Examiner",
+        "prüferLabel": "Examiner",
         "prüfungsterminLabel": "Exam date",
         "submitError": "Please fill out all fields.",
         "submitButton": "Submit Application"

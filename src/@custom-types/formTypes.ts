@@ -10,7 +10,6 @@ export interface BachelorAnmeldung {
   matrikelnummer: string;
   modul: string;
   thema: string;
-  firstExaminer: string;
-  secondExaminer: string;
+  examiner: string;
   prüfungstermin: string;
 }
