@@ -19,8 +19,8 @@ export default function FormsPage() {
 
   const { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung } = useApiForm();
 
-  const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
+  const handleChange = (tab: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
+    setParams(isExpanded ? { tab: tab } : {});
   };
 
   const onStudienbescheinigung = async (): Promise<void> => {
@@ -69,7 +69,7 @@ export default function FormsPage() {
       </Accordion>
 
       {/* Nachklausur */}
-      <Accordion ref={nachklausurRef} expanded={expanded === 'Nachklausur'} onChange={handleChange('Nachklausur')}>
+      <Accordion ref={nachklausurRef} expanded={expanded === 'Nachklausur'} onChange={handleChange('1')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           {t("pages.forms.nachklausur.accordion")}
         </AccordionSummary>
@@ -79,7 +79,7 @@ export default function FormsPage() {
       </Accordion>
 
       {/* Bachelor Anmeldung */}
-      <Accordion ref={bachelorRef} expanded={expanded === 'Bachelor'} onChange={handleChange('Bachelor')}>
+      <Accordion ref={bachelorRef} expanded={expanded === 'Bachelor'} onChange={handleChange('2')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           {t("pages.forms.bachelorAnmeldung.accordion")}
         </AccordionSummary>
