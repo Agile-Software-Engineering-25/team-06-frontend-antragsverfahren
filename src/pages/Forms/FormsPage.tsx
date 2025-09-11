@@ -6,8 +6,13 @@ import useApiForm from '@/hooks/useApiForm';
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Typography, Box, Button } from '@mui/joy';
+import { useSearchParams } from 'react-router';
 
 export default function FormsPage() {
+  const [params, setParams] = useSearchParams();
+  const nachklausurRef = React.useRef<HTMLDivElement | null>(null);
+  const bachelorRef = React.useRef<HTMLDivElement | null>(null);
+
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const { t } = useTranslation();
@@ -27,6 +32,20 @@ export default function FormsPage() {
         alert(t('pages.forms.studienbescheinigung.error'));
     }
   }
+
+  React.useEffect(() => {
+    const tab = params.get("tab");
+    if (tab === "1") {
+      setExpanded("Nachklausur");
+      nachklausurRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (tab === "2") {
+      setExpanded("Bachelor");
+      bachelorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      setExpanded(false);
+      setParams({});
+    }
+  }, [params]);
 
   return (
     <Box
@@ -50,17 +69,17 @@ export default function FormsPage() {
       </Accordion>
 
       {/* Nachklausur */}
-      <Accordion expanded={expanded === 'Nachklausur'} onChange={handleChange('Nachklausur')}>
+      <Accordion ref={nachklausurRef} expanded={expanded === 'Nachklausur'} onChange={handleChange('Nachklausur')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           {t("pages.forms.nachklausur.accordion")}
         </AccordionSummary>
         <AccordionDetails>
-          <NachklausurAntrag onApi={createNachklausurAntrag} />
+          <NachklausurAntrag onApi={createNachklausurAntrag}/>
         </AccordionDetails>
       </Accordion>
 
       {/* Bachelor Anmeldung */}
-      <Accordion expanded={expanded === 'Bachelor'} onChange={handleChange('Bachelor')}>
+      <Accordion ref={bachelorRef} expanded={expanded === 'Bachelor'} onChange={handleChange('Bachelor')}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           {t("pages.forms.bachelorAnmeldung.accordion")}
         </AccordionSummary>
