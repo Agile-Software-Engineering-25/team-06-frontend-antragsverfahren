@@ -3,7 +3,6 @@ export interface NachklausurAntrag {
   matrikelnummer: string;
   modul: string;
   prüfungstermin: string;
-  file: File;
 }
 
 export interface BachelorAnmeldung {

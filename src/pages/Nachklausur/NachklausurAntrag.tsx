@@ -21,8 +21,6 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
   const matrikelnummer = useRef('');
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
-  const file = useRef<File | null>(null);
-  // const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,8 +29,7 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
       !name.current ||
       !matrikelnummer.current ||
       !modul.current ||
-      !prüfungstermin.current ||
-      !file.current
+      !prüfungstermin.current
     ) {
       alert(
         t('pages.forms.nachklausur.submitError') +
@@ -50,7 +47,6 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
       matrikelnummer: matrikelnummer.current,
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
-      file: file.current!,
     };
 
     await onApi(nachklausurAntrag);
