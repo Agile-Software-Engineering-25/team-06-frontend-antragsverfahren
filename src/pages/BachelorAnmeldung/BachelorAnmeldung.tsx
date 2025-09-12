@@ -19,10 +19,10 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
 
   const name = useRef('');
   const matrikelnummer = useRef('');
-  const modul = useRef('');
+  const studiengang = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
-  const examiner = useRef('');
+  const prüfer = useRef('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,16 +30,16 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
     if (
       !name.current ||
       !matrikelnummer.current ||
-      !modul.current ||
+      !studiengang.current ||
       !prüfungstermin.current ||
       !thema.current ||
-      !examiner.current
+      !prüfer.current
     ) {
       alert(
         t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
-            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!examiner.current && 'prüfer')}Label`
+            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
           ) +
           ')'
       );
@@ -49,10 +49,10 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
     const bachelorAnmeldung: BachelorAnmeldung = {
       name: name.current,
       matrikelnummer: matrikelnummer.current,
-      modul: modul.current,
+      studiengang: studiengang.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
       thema: thema.current,
-      examiner: examiner.current,
+      prüfer: prüfer.current,
     };
 
     await onApi(bachelorAnmeldung);
@@ -97,7 +97,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
         </FormLabel>
         <Select
           onChange={(_, newValue: string | null) =>
-            (modul.current = newValue ?? '')
+            (studiengang.current = newValue ?? '')
           }
           required
           placeholder={t('pages.forms.bachelorAnmeldung.studiengangAuswählen')}
@@ -128,7 +128,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
           {t('pages.forms.bachelorAnmeldung.prüferLabel')}
         </FormLabel>
         <Input
-          onChange={(e) => (examiner.current = e.target.value)}
+          onChange={(e) => (prüfer.current = e.target.value)}
           required
         />
       </FormControl>

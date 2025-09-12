@@ -8,8 +8,8 @@ export interface NachklausurAntrag {
 export interface BachelorAnmeldung {
   name: string;
   matrikelnummer: string;
-  modul: string;
+  studiengang: string;
   thema: string;
-  examiner: string;
+  prüfer: string;
   prüfungstermin: string;
 }
