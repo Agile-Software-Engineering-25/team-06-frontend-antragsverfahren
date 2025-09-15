@@ -17,7 +17,20 @@ export default function FormsPage() {
 
   const { t } = useTranslation();
 
-  const { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung } = useApiForm();
+  const { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung, uploadBachelorthesisExpose } = useApiForm();
+
+  const onBachelorthesisExpose = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      await uploadBachelorthesisExpose(file);
+      alert('Datei erfolgreich hochgeladen');
+    } catch (err) {
+      console.error(err);
+      alert('Upload fehlgeschlagen');
+    }
+  };
 
   const handleChange = (tab: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
     setParams(isExpanded ? { tab: tab } : {});
@@ -87,7 +100,33 @@ export default function FormsPage() {
           <BachelorAnmeldung onApi={createBachelorAnmeldung} />
         </AccordionDetails>
       </Accordion>
-    </Box>
+
+      {/* Bachelorthesis Exposé */}
+      <Accordion expanded>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "95%",
+            p: 2,
+          }}
+        >
+          <Typography level="title-sm">
+            Bachelorthesis Exposé hochladen
+          </Typography>
+          <Button
+          component="label"
+          variant="solid"
+          color="primary"
+          sx={{ px: 3 }}>
+          Hochladen
+          <input type="file" hidden onChange={onBachelorthesisExpose} />
+    </Button>
+        </Box>
+      </Accordion>
+        </Box>
 
   );
 

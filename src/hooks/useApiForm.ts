@@ -30,5 +30,20 @@ export default function useApiForm() {
     return response.data;
   }, [axiosInstance]);
 
-  return { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung };
+  //function to upload bachelorthesis expose
+  const uploadBachelorthesisExpose = useCallback(async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axiosInstance.post('/bachelorarbeit', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      console.log('Bachelorthesis Exposé hochgeladen:', response.data);
+      return response.data;
+    },
+    [axiosInstance]
+  );
+
+  return { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung, uploadBachelorthesisExpose };
 }
