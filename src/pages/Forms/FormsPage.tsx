@@ -99,10 +99,6 @@ export default function FormsPage() {
         <AccordionDetails>
           <BachelorAnmeldung onApi={createBachelorAnmeldung} />
         </AccordionDetails>
-      </Accordion>
-
-      {/* Bachelorthesis Exposé */}
-      <Accordion expanded>
         <Box
           sx={{
             display: "flex",
@@ -123,10 +119,10 @@ export default function FormsPage() {
           sx={{ px: 3 }}>
           Hochladen
           <input type="file" hidden onChange={onBachelorthesisExpose} />
-    </Button>
-        </Box>
-      </Accordion>
-        </Box>
+          </Button>
+          </Box>
+        </Accordion>
+      </Box>
 
   );
 
