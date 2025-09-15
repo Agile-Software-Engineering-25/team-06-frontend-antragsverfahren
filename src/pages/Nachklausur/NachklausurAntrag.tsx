@@ -48,8 +48,14 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
     };
-
-    await onApi(nachklausurAntrag);
+    try{
+      await onApi(nachklausurAntrag);
+      alert("erfolgreich abgeschickt");
+    }catch(err){
+      console.error(err);
+      alert("Antrag konnte nicht abgeschickt werden");
+      return;
+    }
   };
 
   return (
