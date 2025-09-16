@@ -17,8 +17,10 @@ export default function useApiForm() {
   );
 
   const createBachelorAnmeldung = useCallback(
-    async (data: BachelorAnmeldung) => {
-      const response = await axiosInstance.post('/bachelorarbeit', data);
+    async (formData: FormData) => {
+      const response = await axiosInstance.post('/bachelorarbeit', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       console.log('Bachelor Anmeldung erstellt:', response.data);
       return response.data;
     },

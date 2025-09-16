@@ -38,7 +38,8 @@
         "prüferLabel": "Examiner",
         "prüfungsterminLabel": "Exam date",
         "submitError": "Please fill out all fields.",
-        "submitButton": "Submit Application"
+        "submitButton": "Submit Application",
+        "exposeLabel": "Upload Expose"
       },
       "studienbescheinigung": {
         "accordion": "Download study certificate:",

@@ -38,7 +38,8 @@
         "prüferLabel": "Prüfer",
         "prüfungsterminLabel": "Prüfungstermin",
         "submitError": "Bitte füllen Sie alle Felder aus.",
-        "submitButton": "Anmeldung einreichen"
+        "submitButton": "Anmeldung einreichen",
+        "exposeLabel": "Expose Hochladen"
       },
       "studienbescheinigung": {
         "accordion": "Studienbescheinigung herunterladen:",

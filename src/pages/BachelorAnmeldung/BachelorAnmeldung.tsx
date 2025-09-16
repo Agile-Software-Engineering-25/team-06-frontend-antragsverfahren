@@ -14,7 +14,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
 
-export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnmeldung) => Promise<void> }) {
+export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) => Promise<void> }) {
   const { t } = useTranslation();
 
   const name = useRef('');
@@ -23,6 +23,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
   const prüfer = useRef('');
+  const [exposeFile, setExposeFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,16 +47,21 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
       return;
     }
 
-    const bachelorAnmeldung: BachelorAnmeldung = {
-      name: name.current,
-      matrikelnummer: matrikelnummer.current,
-      studiengang: studiengang.current,
-      prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
-      thema: thema.current,
-      prüfer: prüfer.current,
-    };
+    if (!exposeFile) {
+      alert(t('pages.forms.bachelorAnmeldung.exposeError'));
+      return;
+    }
 
-    await onApi(bachelorAnmeldung);
+    const formData = new FormData();
+    formData.append('name', name.current);
+    formData.append('matrikelnummer', matrikelnummer.current);
+    formData.append('studiengang', studiengang.current);
+    formData.append('prüfungstermin', prüfungstermin.current!.format('DD-MM-YYYY'));
+    formData.append('thema', thema.current);
+    formData.append('prüfer', prüfer.current);
+    formData.append('expose', exposeFile);
+
+    await onApi(formData);
   };
 
   return (
@@ -139,6 +145,17 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
         </FormLabel>
         <DatePicker
           onChange={(newDate) => (prüfungstermin.current = newDate)}
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>
+          {t('pages.forms.bachelorAnmeldung.exposeLabel')}
+        </FormLabel>
+        <Input
+          type="file"
+          onChange={e => setExposeFile(e.target.files?.[0] ?? null)}
+          required
         />
       </FormControl>
 

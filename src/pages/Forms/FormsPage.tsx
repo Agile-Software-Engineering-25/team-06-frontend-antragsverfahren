@@ -19,6 +19,16 @@ export default function FormsPage() {
 
   const { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung, uploadBachelorthesisExpose } = useApiForm();
 
+  const [exposeFile, setExposeFile] = React.useState<File | null>(null);
+
+  const onBachelorthesisExposeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setExposeFile(file);
+      alert('Datei ausgewählt: ' + file.name);
+    }
+  };
+
   const onBachelorthesisExpose = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -98,31 +108,20 @@ export default function FormsPage() {
         </AccordionSummary>
         <AccordionDetails>
           <BachelorAnmeldung onApi={createBachelorAnmeldung} />
-        </AccordionDetails>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "95%",
-            p: 2,
-          }}
-        >
-          <Typography level="title-sm">
-            Bachelorthesis Exposé hochladen
-          </Typography>
-          <Button
-          component="label"
-          variant="solid"
-          color="primary"
-          sx={{ px: 3 }}>
-          Hochladen
-          <input type="file" hidden onChange={onBachelorthesisExpose} />
-          </Button>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "95%",
+              p: 2,
+            }}
+          >
           </Box>
-        </Accordion>
-      </Box>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
 
   );
 
