@@ -1,6 +1,9 @@
 import { BrowserRouter } from 'react-router';
 import RoutingComponent from '@components/RoutingComponent/RoutingComponent';
-import { createCustomTheme } from '@agile-software/shared-components';
+import {
+  createCustomJoyTheme,
+  createCustomMuiTheme,
+} from '@agile-software/shared-components';
 import { THEME_ID as MATERIAL_THEME_ID, ThemeProvider } from '@mui/material';
 import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy';
 import './i18n';
@@ -11,26 +14,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/de';
 import LanguageSelectorComponent from './components/LanguageSelectorComponent/LanguageSelectorComponent';
 
-const theme = createCustomTheme({
-  colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          500: '#your-primary-color',
-        },
-      },
-    },
-  },
-  components: {
-    JoyButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: '8px',
-        },
-      },
-    },
-  },
-});
+const joyTheme = createCustomJoyTheme();
+const muiTheme = createCustomMuiTheme();
 
 type AppProps = {
   basename?: string;
@@ -44,8 +29,13 @@ function App({ basename }: AppProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
       <Provider store={store}>
-        <ThemeProvider theme={{ [MATERIAL_THEME_ID]: theme }}>
-          <JoyCssVarsProvider>
+        <ThemeProvider theme={{ [MATERIAL_THEME_ID]: muiTheme }}>
+          <JoyCssVarsProvider
+            theme={joyTheme}
+            defaultMode="light"
+            modeStorageKey="joy-mode"
+            colorSchemeStorageKey="joy-color-scheme"
+          >
             <LanguageSelectorComponent />
             <BrowserRouter basename={basename}>
               <RoutingComponent />
