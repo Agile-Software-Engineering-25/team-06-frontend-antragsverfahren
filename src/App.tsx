@@ -12,14 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/de';
 import LanguageSelectorComponent from './components/LanguageSelectorComponent/LanguageSelectorComponent';
 
-const joyTheme = createCustomJoyTheme();
-const muiTheme = createCustomMuiTheme();
-
-type AppProps = {
-  basename?: string;
-};
-
-function App({ basename }: AppProps) {
+const App = ({ basename }: AppProps) => {
   // Simuliere Authentifizierung: Setze Dummy-Token beim App-Start
   if (typeof window !== 'undefined') {
     localStorage.setItem('auth_token', 'mocked-entraid-token');
@@ -41,6 +34,13 @@ function App({ basename }: AppProps) {
       </ThemeProvider>
     </LocalizationProvider>
   );
-}
+};
+
+const joyTheme = createCustomJoyTheme();
+const muiTheme = createCustomMuiTheme();
+
+type AppProps = {
+  basename?: string;
+};
 
 export default App;

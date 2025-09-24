@@ -14,7 +14,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
 
-export default function NachklausurAntrag({ onApi }: { onApi: (data: NachklausurAntrag) => Promise<void> }) {
+export default function NachklausurAntrag({
+  onApi,
+}: {
+  onApi: (data: NachklausurAntrag) => Promise<void>;
+}) {
   const { t } = useTranslation();
 
   const name = useRef('');
@@ -63,7 +67,7 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
         width: '70%',
         mx: 'auto',
         my: 2,
-        p: 2
+        p: 2,
       }}
     >
       <Typography level="h4">{t('pages.forms.nachklausur.title')}</Typography>

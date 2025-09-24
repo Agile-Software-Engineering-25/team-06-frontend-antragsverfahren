@@ -1,6 +1,6 @@
-declare module "@agile-software/shared-components" {
-  import { extendTheme } from "@mui/joy/styles";
-  import { Theme } from "@mui/material/styles";
+declare module '@agile-software/shared-components' {
+  import { extendTheme } from '@mui/joy/styles';
+  import { Theme } from '@mui/material/styles';
 
   export type CustomTheme = ReturnType<typeof extendTheme>;
 

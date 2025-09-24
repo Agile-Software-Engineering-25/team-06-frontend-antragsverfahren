@@ -14,7 +14,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
 
-export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnmeldung) => Promise<void> }) {
+export default function BachelorAnmeldung({
+  onApi,
+}: {
+  onApi: (data: BachelorAnmeldung) => Promise<void>;
+}) {
   const { t } = useTranslation();
 
   const name = useRef('');
@@ -69,7 +73,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
         width: '70%',
         mx: 'auto',
         my: 2,
-        p: 2
+        p: 2,
       }}
     >
       <Typography level="h4">
@@ -124,13 +128,8 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
       </FormControl>
 
       <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.prüferLabel')}
-        </FormLabel>
-        <Input
-          onChange={(e) => (prüfer.current = e.target.value)}
-          required
-        />
+        <FormLabel>{t('pages.forms.bachelorAnmeldung.prüferLabel')}</FormLabel>
+        <Input onChange={(e) => (prüfer.current = e.target.value)} required />
       </FormControl>
 
       <FormControl>

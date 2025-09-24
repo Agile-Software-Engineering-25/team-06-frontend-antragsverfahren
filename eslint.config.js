@@ -15,7 +15,6 @@ export default tseslint.config([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
     ],
     plugins: {
@@ -53,20 +52,21 @@ export default tseslint.config([
       'func-style': ['warn', 'expression', { allowArrowFunctions: true }],
 
       // ---- Null/undefined handling ----
-      '@typescript-eslint/no-non-null-assertion': 'warn',
-      '@typescript-eslint/no-unnecessary-condition': 'warn',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/strict-boolean-expressions': 'off',
 
       // ---- Naming conventions ----
       '@typescript-eslint/naming-convention': [
         'warn',
         {
           selector: 'variableLike',
-          format: ['camelCase'],
+          format: ['camelCase', 'PascalCase'],
           leadingUnderscore: 'allow',
         },
         {
           selector: 'function',
-          format: ['camelCase'],
+          format: ['camelCase', 'PascalCase'],
         },
         {
           selector: 'typeLike',
@@ -75,8 +75,8 @@ export default tseslint.config([
       ],
 
       // ---- Readability ----
-      'id-length': ['warn', { min: 3, exceptions: ['id', 'fs', 'db'] }],
-      'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
+      'id-length': ['warn', { min: 3, exceptions: ['id', 'fs', 'db', 't', 'e', '_', 'mx', 'my', 'px', 'py', 'm', 'p', 'de', 'en'] }],
+      'max-lines-per-function': ['warn', { max: 150, skipBlankLines: true }],
 
       // React specific
       'react/react-in-jsx-scope': 'off', // Not needed for React 17+

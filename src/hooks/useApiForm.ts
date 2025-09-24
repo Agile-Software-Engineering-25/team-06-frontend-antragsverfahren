@@ -1,7 +1,10 @@
 import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
-import type { BachelorAnmeldung, NachklausurAntrag } from '@/@custom-types/formTypes';
+import type {
+  BachelorAnmeldung,
+  NachklausurAntrag,
+} from '@/@custom-types/formTypes';
 
 export default function useApiForm() {
   console.log(BACKEND_BASE_URL);
@@ -26,9 +29,17 @@ export default function useApiForm() {
   );
 
   const getStudienbescheinigung = useCallback(async () => {
-    const response = await axiosInstance.post('/studienbescheinigung', {}, { responseType: 'blob' });
+    const response = await axiosInstance.post(
+      '/studienbescheinigung',
+      {},
+      { responseType: 'blob' }
+    );
     return response.data;
   }, [axiosInstance]);
 
-  return { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung };
+  return {
+    createNachklausurAntrag,
+    createBachelorAnmeldung,
+    getStudienbescheinigung,
+  };
 }
