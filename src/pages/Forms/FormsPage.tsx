@@ -3,18 +3,11 @@ import NachklausurAntrag from '../Nachklausur/NachklausurAntrag';
 import BachelorAnmeldung from '../BachelorAnmeldung/BachelorAnmeldung';
 import { useTranslation } from 'react-i18next';
 import useApiForm from '@/hooks/useApiForm';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Typography, Box, Button } from '@mui/joy';
-import { useSearchParams } from 'react-router';
+import { Box } from '@mui/joy';
+import { Accordion, Card } from '@agile-software/shared-components';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 export default function FormsPage() {
-  const [params, setParams] = useSearchParams();
-  const nachklausurRef = React.useRef<HTMLDivElement | null>(null);
-  const bachelorRef = React.useRef<HTMLDivElement | null>(null);
-
-  const [expanded, setExpanded] = React.useState<string | false>(false);
-
   const { t } = useTranslation();
 
   const {
@@ -22,11 +15,6 @@ export default function FormsPage() {
     createBachelorAnmeldung,
     getStudienbescheinigung,
   } = useApiForm();
-
-  const handleChange =
-    (tab: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-      setParams(isExpanded ? { tab: tab } : {});
-    };
 
   const onStudienbescheinigung = async (): Promise<void> => {
     const data = await getStudienbescheinigung();
@@ -38,25 +26,18 @@ export default function FormsPage() {
     }
   };
 
-  React.useEffect(() => {
-    const tab = params.get('tab');
-    if (tab === '1') {
-      setExpanded('Nachklausur');
-      nachklausurRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else if (tab === '2') {
-      setExpanded('Bachelor');
-      bachelorRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    } else {
-      setExpanded(false);
-      setParams({});
-    }
-  }, [params]);
+  const accordionItems = [
+    {
+      id: 'nachklausur',
+      header: t('pages.forms.nachklausur.title'),
+      children: <NachklausurAntrag onApi={createNachklausurAntrag} />,
+    },
+    {
+      id: 'bachelor',
+      header: t('pages.forms.bachelorAnmeldung.title'),
+      children: <BachelorAnmeldung onApi={createBachelorAnmeldung} />,
+    },
+  ];
 
   return (
     <Box
@@ -65,65 +46,55 @@ export default function FormsPage() {
         width: '70%',
         maxWidth: '1200px',
         display: 'flex',
-        flexDirection: 'column', // wichtig, sonst alle nebeneinander
+        flexDirection: 'column',
         justifyContent: 'center',
         py: 10,
         px: 10,
+        gap: 3,
       }}
     >
-      {/* Studienbescheinigung */}
-      <Accordion expanded>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '95%',
-            p: 2,
-          }}
-        >
-          <Typography level="title-sm">
-            {t('pages.forms.studienbescheinigung.accordion')}
-          </Typography>
-          <Button
-            sx={{ px: 3 }}
-            variant="solid"
-            color="primary"
-            onClick={onStudienbescheinigung}
-          >
-            {t('pages.forms.studienbescheinigung.buttonLabel')}
-          </Button>
-        </Box>
-      </Accordion>
+      <Card
+        title={t('pages.forms.studienbescheinigung.title')}
+        imageButton={{
+          text: (
+            <>
+              <FileDownloadIcon sx={{ mr: 1 }} />
+              {t('pages.forms.studienbescheinigung.buttonLabel')}
+            </>
+          ),
+          onClick: onStudienbescheinigung,
+          variant: 'solid',
+          color: 'primary',
+        }}
+      />
 
-      {/* Nachklausur */}
       <Accordion
-        ref={nachklausurRef}
-        expanded={expanded === 'Nachklausur'}
-        onChange={handleChange('1')}
-      >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          {t('pages.forms.nachklausur.accordion')}
-        </AccordionSummary>
-        <AccordionDetails>
-          <NachklausurAntrag onApi={createNachklausurAntrag} />
-        </AccordionDetails>
-      </Accordion>
-
-      {/* Bachelor Anmeldung */}
-      <Accordion
-        ref={bachelorRef}
-        expanded={expanded === 'Bachelor'}
-        onChange={handleChange('2')}
-      >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          {t('pages.forms.bachelorAnmeldung.accordion')}
-        </AccordionSummary>
-        <AccordionDetails>
-          <BachelorAnmeldung onApi={createBachelorAnmeldung} />
-        </AccordionDetails>
-      </Accordion>
+        items={accordionItems}
+        multiple={false}
+        accordionGroupSX={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
+        }}
+        accordionSX={{
+          borderRadius: '10px',
+          backgroundColor: '#f3f8ff',
+          boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+          overflow: 'hidden',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
+            transform: 'translateY(-2px)',
+          },
+          '&:before': { display: 'none' },
+        }}
+        headerSX={{
+          fontWeight: 'bold',
+          color: '#00122B',
+          userSelect: 'none',
+          fontSize: '1.5rem',
+        }}
+      />
     </Box>
   );
 }

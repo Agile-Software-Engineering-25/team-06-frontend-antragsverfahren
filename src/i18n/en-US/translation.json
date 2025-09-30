@@ -3,7 +3,7 @@
     "forms": {
       "nachklausur": {
         "accordion": "Apply for a re-examination:",
-        "title": "Re-examination Application",
+        "title": "Re-examination application",
         "description": "Here you can apply for a re-examination.",
         "nameLabel": "Name",
         "matrikelnummerLabel": "Student number",
@@ -12,12 +12,13 @@
         "prüfungsterminLabel": "Exam date",
         "uploadBtn": "Upload",
         "submitError": "Please fill out all fields.",
-        "submitButton": "Submit Application"
+        "submitButton": "Submit Application",
+        "success":"The re-examination application has been successfully submitted. A confirmation is waiting for you in your mailbox."
       },
       "bachelorAnmeldung": {
-        "accordion": "Register for the Bachelor examination:",
-        "title": "Bachelor Registration",
-        "description": "Here you can register for the Bachelor examination.",
+        "accordion": "Register for the Bachelor thesis:",
+        "title": "Bachelor thesis registration",
+        "description": "Here you can register for the Bachelor thesis.",
         "nameLabel": "Name",
         "matrikelnummerLabel": "Student number",
         "studiengangLabel": "Course of Study",
@@ -26,10 +27,13 @@
         "prüferLabel": "Examiner",
         "prüfungsterminLabel": "Exam date",
         "submitError": "Please fill out all fields.",
-        "submitButton": "Submit Application"
+        "submitButton": "Submit Application",
+        "exposeHochladen": "Upload expose",
+        "success": "Your bachelor thesis registration has been successfully submitted. A confirmation email is waiting for you in your inbox."
       },
       "studienbescheinigung": {
         "accordion": "Download study certificate:",
+        "title": "Study certificate",
         "buttonLabel": "Download",
         "error": "Error downloading study certificate."
       }
