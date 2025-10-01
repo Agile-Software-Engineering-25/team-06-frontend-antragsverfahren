@@ -14,6 +14,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
 
+const mockedPruefer = [
+  'Volk',
+  'Daubert',
+  'Hutter',
+  'Scheidemann',
+];
+
 export default function BachelorAnmeldung({
   onApi,
 }: {
@@ -130,6 +137,21 @@ export default function BachelorAnmeldung({
       <FormControl>
         <FormLabel>{t('pages.forms.bachelorAnmeldung.prüferLabel')}</FormLabel>
         <Input onChange={(e) => (prüfer.current = e.target.value)} required />
+        <Select
+          onChange={(_, newValue: string | null) =>
+            (prüfer.current = newValue ?? '')
+          }
+          required
+          placeholder={t('pages.forms.bachelorAnmeldung.prüferLabel')}
+        >
+          <>
+            {mockedPruefer.map((p) => (
+              <Option key={p} value={p}>
+                {p}
+              </Option>
+            ))}
+          </>
+        </Select>
       </FormControl>
 
       <FormControl>
