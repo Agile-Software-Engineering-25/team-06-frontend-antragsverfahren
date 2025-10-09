@@ -152,7 +152,7 @@ export default function BachelorAnmeldung({
         type="submit"
         variant="solid"
         color="primary"
-        startDecorator=<EmailIcon/>
+        startDecorator=<EmailIcon />
         sx={{
           width: 'auto',
           alignSelf: 'flex-start',
