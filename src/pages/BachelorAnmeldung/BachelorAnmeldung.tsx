@@ -7,12 +7,7 @@ import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
 import FileUpload from '../../components/FileUpload/FileUpload.tsx';
 import EmailIcon from '@mui/icons-material/Email';
 
-const mockedPruefer = [
-  'Volk',
-  'Daubert',
-  'Hutter',
-  'Scheidemann',
-];
+const mockedPruefer = ['Volk', 'Daubert', 'Hutter', 'Scheidemann'];
 
 export default function BachelorAnmeldung({
   onApi,
@@ -124,8 +119,6 @@ export default function BachelorAnmeldung({
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.forms.bachelorAnmeldung.prüferLabel')}</FormLabel>
-        <Input onChange={(e) => (prüfer.current = e.target.value)} required />
         <Select
           onChange={(_, newValue: string | null) =>
             (prüfer.current = newValue ?? '')
