@@ -6,9 +6,13 @@ import useApiForm from '@/hooks/useApiForm';
 import { Box } from '@mui/joy';
 import { Accordion, Card } from '@agile-software/shared-components';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { useSearchParams } from 'react-router-dom';
 
 export default function FormsPage() {
   const { t } = useTranslation();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const accordionParam = searchParams.get('accordion');
 
   const {
     createNachklausurAntrag,
@@ -26,16 +30,30 @@ export default function FormsPage() {
     }
   };
 
+  const handleAccordionChange = (id: string, expanded: boolean) => {
+    if (expanded) {
+      setSearchParams({ accordion: id }); // setzt z. B. ?accordion=nachklausur
+    } else {
+      setSearchParams({}); // entfernt ?accordion komplett
+    }
+  };
+
   const accordionItems = [
     {
       id: 'nachklausur',
       header: t('pages.forms.nachklausur.title'),
       children: <NachklausurAntrag onApi={createNachklausurAntrag} />,
+      expand: accordionParam === 'nachklausur',
+      onChange: (expanded: boolean) =>
+        handleAccordionChange('nachklausur', expanded),
     },
     {
       id: 'bachelor',
       header: t('pages.forms.bachelorAnmeldung.title'),
       children: <BachelorAnmeldung onApi={createBachelorAnmeldung} />,
+      expand: accordionParam === 'bachelor',
+      onChange: (expanded: boolean) =>
+        handleAccordionChange('bachelor', expanded),
     },
   ];
 
