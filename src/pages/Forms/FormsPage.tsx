@@ -4,29 +4,27 @@ import BachelorAnmeldung from '../BachelorAnmeldung/BachelorAnmeldung';
 import { useTranslation } from 'react-i18next';
 import useApiForm from '@/hooks/useApiForm';
 import { Box } from '@mui/joy';
-import { useSearchParams } from 'react-router';
 import { Accordion, Card } from '@agile-software/shared-components';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 export default function FormsPage() {
-  const [params, setParams] = useSearchParams()
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const {
     createNachklausurAntrag,
     createBachelorAnmeldung,
     getStudienbescheinigung,
-  } = useApiForm()
+  } = useApiForm();
 
   const onStudienbescheinigung = async (): Promise<void> => {
-    const data = await getStudienbescheinigung()
+    const data = await getStudienbescheinigung();
     if (data) {
-      const url = URL.createObjectURL(data)
-      window.open(url, '_blank', 'noopener,noreferrer')
+      const url = URL.createObjectURL(data);
+      window.open(url, '_blank', 'noopener,noreferrer');
     } else {
-      alert(t('pages.forms.studienbescheinigung.error'))
+      alert(t('pages.forms.studienbescheinigung.error'));
     }
-  }
+  };
 
   const accordionItems = [
     {
@@ -38,19 +36,8 @@ export default function FormsPage() {
       id: 'bachelor',
       header: t('pages.forms.bachelorAnmeldung.title'),
       children: <BachelorAnmeldung onApi={createBachelorAnmeldung} />,
-    }
-  ]
-
-  const [expanded, setExpanded] = React.useState<string[]>([])
-  React.useEffect(() => {
-    const tab = params.get('tab')
-    if (tab === '1') setExpanded(['nachklausur'])
-    else if (tab === '2') setExpanded(['bachelor'])
-    else {
-      setExpanded([])
-      setParams({})
-    }
-  }, [params, setParams])
+    },
+  ];
 
   return (
     <Box
@@ -109,5 +96,5 @@ export default function FormsPage() {
         }}
       />
     </Box>
-  )
+  );
 }

@@ -56,6 +56,7 @@ export default function NachklausurAntrag({
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
+        width: '70%',
         mx: 'auto',
         my: 2,
         p: 2,
@@ -73,7 +74,7 @@ export default function NachklausurAntrag({
         <Input
           onChange={(e) => (matrikelnummer.current = e.target.value)}
           required
-          placeholder={t("pages.forms.nachklausur.matrikelnummerLabel")}
+          placeholder={t('pages.forms.nachklausur.matrikelnummerLabel')}
         />
       </FormControl>
 
@@ -110,7 +111,7 @@ export default function NachklausurAntrag({
         type="submit"
         variant="solid"
         color="primary"
-        startDecorator=<EmailIcon/>
+        startDecorator=<EmailIcon />
         sx={{
           width: 'auto',
           alignSelf: 'flex-start',

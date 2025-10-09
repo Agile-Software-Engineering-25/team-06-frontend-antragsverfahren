@@ -1,11 +1,11 @@
 describe('Forms Page', () => {
   it('should load the forms page', () => {
     cy.visit('/');
-    cy.contains('Für eine Nachklausur beantragen');
+    cy.contains('Nachklausurantrag');
   });
-  it('should load the Studienbescheinigung Accordion', () => {
+  it('should load the Studienbescheinigung Card', () => {
     cy.visit('/');
-    cy.contains('Studienbescheinigung herunterladen');
+    cy.contains('Studienbescheinigung');
 
     // cy.get('#root > div > div > button').click();
     // cy.wait('@getCurrentWeather');
