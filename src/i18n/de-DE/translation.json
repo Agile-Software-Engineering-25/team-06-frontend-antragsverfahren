@@ -12,11 +12,12 @@
         "prüfungsterminLabel": "Prüfungstermin",
         "uploadBtn": "Hochladen",
         "submitError": "Bitte füllen Sie alle Felder aus.",
-        "submitButton": "Antrag einreichen"
+        "submitButton": "Antrag einreichen",
+        "success": "Nachklausurantrag wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."
       },
       "bachelorAnmeldung": {
         "accordion": "Für die Bachelorprüfung anmelden:",
-        "title": "Bachelor Anmeldung",
+        "title": "Bachelorarbeitanmeldung",
         "description": "Hier können Sie sich für die Bachelorprüfung anmelden.",
         "nameLabel": "Name",
         "matrikelnummerLabel": "Matrikelnummer",
@@ -26,10 +27,13 @@
         "prüferLabel": "Prüfer",
         "prüfungsterminLabel": "Prüfungstermin",
         "submitError": "Bitte füllen Sie alle Felder aus.",
-        "submitButton": "Anmeldung einreichen"
+        "submitButton": "Anmeldung einreichen",
+        "exposeHochladen": "Expose hochladen",
+        "success": "Bachelorarbeitanmeldung wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."
       },
       "studienbescheinigung": {
         "accordion": "Studienbescheinigung herunterladen:",
+        "title": "Studienbescheinigung",
         "buttonLabel": "Herunterladen",
         "error": "Fehler beim Herunterladen der Studienbescheinigung."
       }

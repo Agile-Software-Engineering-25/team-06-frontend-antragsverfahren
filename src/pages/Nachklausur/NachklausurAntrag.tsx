@@ -1,18 +1,10 @@
 import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Option,
-  Typography,
-} from '@mui/joy';
+import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
+import EmailIcon from '@mui/icons-material/Email';
 
 export default function NachklausurAntrag({
   onApi,
@@ -70,25 +62,23 @@ export default function NachklausurAntrag({
         p: 2,
       }}
     >
-      <Typography level="h4">{t('pages.forms.nachklausur.title')}</Typography>
-
       <FormControl>
-        <FormLabel>{t('pages.forms.nachklausur.nameLabel')}</FormLabel>
-        <Input onChange={(e) => (name.current = e.target.value)} required />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.nachklausur.matrikelnummerLabel')}
-        </FormLabel>
         <Input
-          onChange={(e) => (matrikelnummer.current = e.target.value)}
+          onChange={(e) => (name.current = e.target.value)}
           required
+          placeholder={t('pages.forms.nachklausur.nameLabel')}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.forms.nachklausur.modulLabel')}</FormLabel>
+        <Input
+          onChange={(e) => (matrikelnummer.current = e.target.value)}
+          required
+          placeholder={t('pages.forms.nachklausur.matrikelnummerLabel')}
+        />
+      </FormControl>
+
+      <FormControl>
         <Select
           onChange={(_, newValue: string | null) =>
             (modul.current = newValue ?? '')
@@ -103,15 +93,31 @@ export default function NachklausurAntrag({
       </FormControl>
 
       <FormControl>
-        <FormLabel>
-          {t('pages.forms.nachklausur.prüfungsterminLabel')}
-        </FormLabel>
         <DatePicker
           onChange={(newDate) => (prüfungstermin.current = newDate)}
+          label={t('pages.forms.nachklausur.prüfungsterminLabel')}
+          slotProps={{
+            textField: {
+              sx: {
+                backgroundColor: '#fff',
+                borderRadius: '8px',
+              },
+            },
+          }}
         />
       </FormControl>
 
-      <Button type="submit" variant="solid" color="primary">
+      <Button
+        type="submit"
+        variant="solid"
+        color="primary"
+        startDecorator=<EmailIcon />
+        sx={{
+          width: 'auto',
+          alignSelf: 'flex-start',
+          px: 3,
+        }}
+      >
         {t('pages.forms.nachklausur.submitButton')}
       </Button>
     </Box>

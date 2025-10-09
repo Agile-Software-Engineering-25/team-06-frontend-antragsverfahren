@@ -1,25 +1,11 @@
 import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Option,
-  Typography,
-} from '@mui/joy';
+import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
-
-const mockedPruefer = [
-  'Volk',
-  'Daubert',
-  'Hutter',
-  'Scheidemann',
-];
+import FileUpload from '../../components/FileUpload/FileUpload.tsx';
+import EmailIcon from '@mui/icons-material/Email';
 
 export default function BachelorAnmeldung({
   onApi,
@@ -77,35 +63,28 @@ export default function BachelorAnmeldung({
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        width: '70%',
         mx: 'auto',
         my: 2,
         p: 2,
       }}
     >
-      <Typography level="h4">
-        {t('pages.forms.bachelorAnmeldung.title')}
-      </Typography>
-
       <FormControl>
-        <FormLabel>{t('pages.forms.bachelorAnmeldung.nameLabel')}</FormLabel>
-        <Input onChange={(e) => (name.current = e.target.value)} required />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.matrikelnummerLabel')}
-        </FormLabel>
         <Input
-          onChange={(e) => (matrikelnummer.current = e.target.value)}
+          onChange={(e) => (name.current = e.target.value)}
           required
+          placeholder={t('pages.forms.bachelorAnmeldung.nameLabel')}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.studiengangLabel')}
-        </FormLabel>
+        <Input
+          onChange={(e) => (matrikelnummer.current = e.target.value)}
+          required
+          placeholder={t('pages.forms.bachelorAnmeldung.matrikelnummerLabel')}
+        />
+      </FormControl>
+
+      <FormControl>
         <Select
           onChange={(_, newValue: string | null) =>
             (studiengang.current = newValue ?? '')
@@ -130,40 +109,56 @@ export default function BachelorAnmeldung({
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.forms.bachelorAnmeldung.themaLabel')}</FormLabel>
-        <Input onChange={(e) => (thema.current = e.target.value)} required />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>{t('pages.forms.bachelorAnmeldung.prüferLabel')}</FormLabel>
-        <Input onChange={(e) => (prüfer.current = e.target.value)} required />
-        <Select
-          onChange={(_, newValue: string | null) =>
-            (prüfer.current = newValue ?? '')
-          }
+        <Input
+          onChange={(e) => (thema.current = e.target.value)}
           required
-          placeholder={t('pages.forms.bachelorAnmeldung.prüferLabel')}
-        >
-          <>
-            {mockedPruefer.map((p) => (
-              <Option key={p} value={p}>
-                {p}
-              </Option>
-            ))}
-          </>
-        </Select>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.prüfungsterminLabel')}
-        </FormLabel>
-        <DatePicker
-          onChange={(newDate) => (prüfungstermin.current = newDate)}
+          placeholder={t('pages.forms.bachelorAnmeldung.themaLabel')}
         />
       </FormControl>
 
-      <Button type="submit" variant="solid" color="primary">
+      <FormControl>
+        <Input
+          onChange={(e) => (prüfer.current = e.target.value)}
+          required
+          placeholder={t('pages.forms.bachelorAnmeldung.prüferLabel')}
+        />
+      </FormControl>
+
+      <FormControl>
+        <DatePicker
+          onChange={(newDate) => (prüfungstermin.current = newDate)}
+          label={t('pages.forms.bachelorAnmeldung.prüfungsterminLabel')}
+          slotProps={{
+            textField: {
+              sx: {
+                backgroundColor: '#fff',
+                borderRadius: '8px',
+              },
+            },
+          }}
+        />
+      </FormControl>
+
+      <FileUpload
+        onFile={console.log('Expose')} //TODO
+        sx={{
+          width: 'auto',
+          alignSelf: 'flex-start',
+          px: 3,
+        }}
+      ></FileUpload>
+
+      <Button
+        type="submit"
+        variant="solid"
+        color="primary"
+        startDecorator=<EmailIcon />
+        sx={{
+          width: 'auto',
+          alignSelf: 'flex-start',
+          px: 3,
+        }}
+      >
         {t('pages.forms.bachelorAnmeldung.submitButton')}
       </Button>
     </Box>
