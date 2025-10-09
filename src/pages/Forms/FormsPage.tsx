@@ -43,28 +43,48 @@ export default function FormsPage() {
     <Box
       sx={{
         mx: 'auto',
-        width: '70%',
+        width: { xs: '100%', sm: '90%', md: '70%' },
         maxWidth: '1200px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        py: 10,
-        px: 10,
+        py: { xs: 4, sm: 6, md: 10 },
+        px: { xs: 2, sm: 4, md: 10 },
         gap: 3,
       }}
     >
       <Card
         title={t('pages.forms.studienbescheinigung.title')}
+        titleSX={{
+          fontSize: { xs: '1rem', sm: '1.2rem', md: '1.5rem' },
+        }}
         imageButton={{
           text: (
             <>
-              <FileDownloadIcon sx={{ mr: 1 }} />
+              <FileDownloadIcon
+                sx={{
+                  fontSize: { xs: 16, sm: 20, md: 24 },
+                }}
+              />
               {t('pages.forms.studienbescheinigung.buttonLabel')}
             </>
           ),
           onClick: onStudienbescheinigung,
           variant: 'solid',
           color: 'primary',
+          sx: {
+            fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
+            px: { xs: 1, sm: 2 },
+            py: { xs: 0.5, sm: 1 },
+          },
+        }}
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          width: '100%',
+          p: { xs: 2, sm: 3, md: 4 },
+          alignItems: { xs: 'flex-start', sm: 'center' },
+          gap: { xs: 1, sm: 2 },
         }}
       />
 
@@ -80,11 +100,13 @@ export default function FormsPage() {
           borderRadius: '10px',
           backgroundColor: '#f3f8ff',
           boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+          px: { xs: 1, sm: 2, md: 3 },
+          py: { xs: 1, sm: 2, md: 3 },
           overflow: 'hidden',
           transition: 'all 0.2s ease-in-out',
           '&:hover': {
             boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
-            transform: 'translateY(-2px)',
+            transform: { xs: 'none', md: 'translateY(-2px)' },
           },
           '&:before': { display: 'none' },
         }}
@@ -92,7 +114,7 @@ export default function FormsPage() {
           fontWeight: 'bold',
           color: '#00122B',
           userSelect: 'none',
-          fontSize: '1.5rem',
+          fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
         }}
       />
     </Box>
