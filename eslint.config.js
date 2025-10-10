@@ -75,7 +75,7 @@ export default tseslint.config([
       ],
 
       // ---- Readability ----
-      'id-length': ['warn', { min: 3, exceptions: ['id', 'fs', 'db', 't', 'e', '_', 'mx', 'my', 'px', 'py', 'm', 'p', 'de', 'en', 'sx', 'mr'] }],
+      'id-length': ['warn', { min: 3, exceptions: ['id', 'fs', 'db', 't', 'e', '_', 'mx', 'my', 'px', 'py', 'm', 'p', 'de', 'en', 'sx', 'mr', 'xs', 'sm', 'md', 'mt'] }],
       'max-lines-per-function': ['warn', { max: 150, skipBlankLines: true }],
 
       // React specific
