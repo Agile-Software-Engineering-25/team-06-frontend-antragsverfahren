@@ -48,6 +48,7 @@ export default function FormsPage() {
           display: 'flex',
           flexDirection: 'column',
           gap: 3,
+          boxShadow: '0',
         }}
         accordionSX={{
           borderRadius: '10px',
