@@ -1,17 +1,24 @@
 describe('Forms Page', () => {
   it('should load the forms page', () => {
     cy.visit('/');
-    cy.contains('Nachklausurantrag');
+    cy.contains('Nachklausurantrag' && 'Bachelorarbeitanmeldung');
   });
   it('should load the Studienbescheinigung Card', () => {
     cy.visit('/');
     cy.contains('Studienbescheinigung');
+  });
+});
 
-    // cy.get('#root > div > div > button').click();
-    // cy.wait('@getCurrentWeather');
+describe('Forms Page Accordion Nachklausur', () => {
+  it('should load the Nachklausurantrag-Akkordion', () => {
+    cy.visit('/?accordion=nachklausur');
+    cy.contains('Antrag einreichen');
+  });
+});
 
-    // cy.get('p.MuiTypography-root:nth-child(5)')
-    //   .should('exist')
-    //   .should('contain.text', '20.2 °C'); // change selector as needed
+describe('Forms Page Accordion Bachelorakkordion', () => {
+  it('should load the Nachklausurantrag-Akkordion', () => {
+    cy.visit('/?accordion=bachelor');
+    cy.contains('Exposé hochladen');
   });
 });
