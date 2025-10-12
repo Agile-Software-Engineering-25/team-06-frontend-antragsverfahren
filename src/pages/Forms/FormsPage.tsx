@@ -6,9 +6,13 @@ import useApiForm from '@/hooks/useApiForm';
 import { Box } from '@mui/joy';
 import { Accordion } from '@agile-software/shared-components';
 import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
+import { useSearchParams } from 'react-router';
 
 export default function FormsPage() {
   const { t } = useTranslation();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const accordionParam = searchParams.get('accordion');
 
   const { createNachklausurAntrag, createBachelorAnmeldung } = useApiForm();
 
