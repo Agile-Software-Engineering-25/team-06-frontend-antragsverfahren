@@ -1,4 +1,3 @@
-import * as React from 'react';
 import NachklausurAntrag from '../Nachklausur/NachklausurAntrag';
 import BachelorAnmeldung from '../BachelorAnmeldung/BachelorAnmeldung';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +6,7 @@ import { Box } from '@mui/joy';
 import { Accordion } from '@agile-software/shared-components';
 import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
 import { useSearchParams } from 'react-router';
+// import useUser from '@/hooks/useUser';
 
 export default function FormsPage() {
   const { t } = useTranslation();
@@ -42,6 +42,16 @@ export default function FormsPage() {
         handleAccordionChange('bachelor', expanded),
     },
   ];
+
+  // const user = useUser(); // get access at the top of your component
+  // const clicky = () => {
+  //   console.log(user.getUserId()); // User id
+  //   console.log(user.getFirstName()); // First name
+  //   console.log(user.getLastName()); // Last name
+  //   console.log(user.getFullName()); // Full name
+  //   console.log(user.getEmail()); // Email
+  //   console.log(user.hasRole('admin')); // Check role
+  // };
 
   return (
     <Box

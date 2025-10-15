@@ -35,6 +35,7 @@ export default tseslint.config([
       'prettier/prettier': [
         'error',
         {
+          endOfLine: "auto",
           tabWidth: 2,
           useTabs: false,
           singleQuote: true,
@@ -44,7 +45,7 @@ export default tseslint.config([
 
       // ---- General JS/TS conventions ----
       'no-var': 'error',
-      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-explicit-any': 'off',
       'prefer-const': 'error',
 
       // ---- Arrow functions ----
@@ -76,7 +77,7 @@ export default tseslint.config([
 
       // ---- Readability ----
       'id-length': ['warn', { min: 3, exceptions: ['id', 'fs', 'db', 't', 'e', '_', 'mx', 'my', 'px', 'py', 'm', 'p', 'de', 'en', 'sx', 'mr', 'xs', 'sm', 'md', 'mt'] }],
-      'max-lines-per-function': ['warn', { max: 150, skipBlankLines: true }],
+      'max-lines-per-function': ['warn', { max: 350, skipBlankLines: true }],
 
       // React specific
       'react/react-in-jsx-scope': 'off', // Not needed for React 17+

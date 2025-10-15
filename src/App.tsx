@@ -12,11 +12,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/de';
 import LanguageSelectorComponent from './components/LanguageSelectorComponent/LanguageSelectorComponent';
 
-const App = ({ basename }: AppProps) => {
-  // Simuliere Authentifizierung: Setze Dummy-Token beim App-Start
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('auth_token', 'mocked-entraid-token');
-  }
+/**
+ * @param props - AppProps, contains customProps delivered from the rootUi (user is handled separately via useUser hook)
+ */
+const App = (props: AppProps) => {
+  const { basename } = props;
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
       <ThemeProvider theme={{ [MATERIAL_THEME_ID]: muiTheme }}>
