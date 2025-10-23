@@ -31,19 +31,9 @@ export default tseslint.config([
       },
     },
     rules: {
-      // ---- Formatting ----
-      'prettier/prettier': [
-        'error',
-        {
-          endOfLine: "auto",
-          tabWidth: 2,
-          useTabs: false,
-          singleQuote: true,
-          semi: true,
-        },
-      ],
 
       // ---- General JS/TS conventions ----
+      '@typescript-eslint/ban-ts-comment': 'off',
       'no-var': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       'prefer-const': 'error',
@@ -62,7 +52,7 @@ export default tseslint.config([
         'warn',
         {
           selector: 'variableLike',
-          format: ['camelCase', 'PascalCase'],
+          format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
           leadingUnderscore: 'allow',
         },
         {

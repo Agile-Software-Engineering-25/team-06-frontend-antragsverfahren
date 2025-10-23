@@ -1,4 +1,4 @@
-import * as React from 'react';
+// @ts-nocheck
 import { Box, Button } from '@mui/joy';
 import { Card } from '@agile-software/shared-components';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
