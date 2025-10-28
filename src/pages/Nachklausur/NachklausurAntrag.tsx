@@ -1,6 +1,17 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Dayjs } from 'dayjs';
-import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Option,
+  Typography,
+  Snackbar,
+  Alert,
+} from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
@@ -17,6 +28,8 @@ export default function NachklausurAntrag({
   const matrikelnummer = useRef('');
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,8 +57,14 @@ export default function NachklausurAntrag({
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
     };
-
-    await onApi(nachklausurAntrag);
+    try{
+      await onApi(nachklausurAntrag);
+      setOpenSnackbar(true);
+    }catch(err){
+      console.error(err);
+      alert("Antrag konnte nicht abgeschickt werden");
+      return;
+    }
   };
 
   return (
@@ -120,6 +139,17 @@ export default function NachklausurAntrag({
       >
         {t('pages.forms.nachklausur.submitButton')}
       </Button>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert color="success" variant="soft">
+          {t('pages.forms.nachklausur.successMessage') ||
+            'Antrag erfolgreich eingereicht!'}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

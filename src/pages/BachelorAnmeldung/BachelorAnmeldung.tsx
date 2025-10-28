@@ -1,7 +1,18 @@
 // @ts-nocheck
 import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Option,
+  Typography,
+  Snackbar,
+  Alert,
+} from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
@@ -10,11 +21,7 @@ import EmailIcon from '@mui/icons-material/Email';
 
 const mockedPruefer = ['Volk', 'Daubert', 'Hutter', 'Scheidemann'];
 
-export default function BachelorAnmeldung({
-  onApi,
-}: {
-  onApi: (data: BachelorAnmeldung) => Promise<void>;
-}) {
+export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnmeldung) => Promise<void> }) {
   const { t } = useTranslation();
 
   const name = useRef('');
@@ -23,6 +30,10 @@ export default function BachelorAnmeldung({
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
   const prüfer = useRef('');
+  const [exposeFile, setExposeFile] = useState<File | null>(null);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,16 +57,32 @@ export default function BachelorAnmeldung({
       return;
     }
 
-    const bachelorAnmeldung: BachelorAnmeldung = {
-      name: name.current,
-      matrikelnummer: matrikelnummer.current,
-      studiengang: studiengang.current,
-      prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
-      thema: thema.current,
-      prüfer: prüfer.current,
-    };
+    if (!exposeFile) {
+      alert(t('pages.forms.bachelorAnmeldung.exposeError'));
+      return;
+    }
 
-    await onApi(bachelorAnmeldung);
+    const formData = new FormData();
+    formData.append('name', name.current);
+    formData.append('matrikelnummer', matrikelnummer.current);
+    formData.append('studiengang', studiengang.current);
+    formData.append('prüfungstermin', prüfungstermin.current!.format('DD-MM-YYYY'));
+    formData.append('thema', thema.current);
+    formData.append('prüfer', prüfer.current);
+    formData.append('expose', exposeFile);
+
+    //await onApi(formData);
+    try {
+    await onApi(formData);
+
+    setOpenSnackbar(true);
+
+    // Optional: Formular zurücksetzen
+    setExposeFile(null);
+  } catch (error) {
+    console.error('Fehler beim API-Aufruf:', error);
+    setOpenErrorSnackbar(true);
+  }
   };
 
   return (
@@ -152,6 +179,17 @@ export default function BachelorAnmeldung({
         />
       </FormControl>
 
+      <FormControl>
+        <FormLabel>
+          {t('pages.forms.bachelorAnmeldung.exposeLabel')}
+        </FormLabel>
+        <Input
+          type="file"
+          onChange={e => setExposeFile(e.target.files?.[0] ?? null)}
+          required
+        />
+      </FormControl>
+
       <FileUpload
         onFile={console.log('Expose')} //TODO
         sx={{
@@ -174,6 +212,28 @@ export default function BachelorAnmeldung({
       >
         {t('pages.forms.bachelorAnmeldung.submitButton')}
       </Button>
+      {/* ✅ Snackbar für Erfolg */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert color="success" variant="soft">
+          {t('pages.forms.bachelorAnmeldung.successMessage') ||
+            'Exposé erfolgreich eingereicht!'}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openErrorSnackbar}
+        autoHideDuration={4000}
+        onClose={() => setOpenErrorSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert color="danger" variant="soft">
+          {t('pages.forms.bachelorAnmeldung.submitFailed', 'Fehler beim Einreichen der Anmeldung!')}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
