@@ -38,8 +38,10 @@
         "prüferLabel": "Examiner",
         "prüfungsterminLabel": "Exam date",
         "submitError": "Please fill out all fields.",
+        "submitFailed": "Registration failed. Please try again.",
         "submitButton": "Submit Application",
-        "exposeLabel": "Upload Expose"
+        "exposeLabel": "Upload Expose",
+        "successMessage": "Registration submitted successfully!"
       },
       "studienbescheinigung": {
         "accordion": "Download study certificate:",

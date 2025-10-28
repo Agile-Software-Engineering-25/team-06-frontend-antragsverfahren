@@ -24,7 +24,8 @@
         "prüfungsterminLabel": "Prüfungstermin",
         "uploadBtn": "Hochladen",
         "submitError": "Bitte füllen Sie alle Felder aus.",
-        "submitButton": "Antrag einreichen"
+        "submitButton": "Antrag einreichen",
+        "successMessage": "Antrag erfolgreich eingereicht!"
       },
       "bachelorAnmeldung": {
         "accordion": "Für die Bachelorprüfung anmelden:",
@@ -38,8 +39,10 @@
         "prüferLabel": "Prüfer",
         "prüfungsterminLabel": "Prüfungstermin",
         "submitError": "Bitte füllen Sie alle Felder aus.",
+        "submitFailed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
         "submitButton": "Anmeldung einreichen",
-        "exposeLabel": "Expose Hochladen"
+        "exposeLabel": "Expose Hochladen",
+        "successMessage": "Anmeldung erfolgreich eingereicht!"
       },
       "studienbescheinigung": {
         "accordion": "Studienbescheinigung herunterladen:",

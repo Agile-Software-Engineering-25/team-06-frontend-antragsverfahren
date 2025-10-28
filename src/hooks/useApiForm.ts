@@ -9,7 +9,7 @@ export default function useApiForm() {
 
   const createNachklausurAntrag = useCallback(
     async (data: NachklausurAntrag) => {
-      const response = await axiosInstance.post('/nachklausur', data);
+      const response = await axiosInstance.post('/antrag/nachklausur', data);
       console.log('Nachklausur Antrag erstellt:', response.data);
       return response.data;
     },
@@ -18,7 +18,7 @@ export default function useApiForm() {
 
   const createBachelorAnmeldung = useCallback(
     async (formData: FormData) => {
-      const response = await axiosInstance.post('/bachelorarbeit', formData, {
+      const response = await axiosInstance.post('/antrag/bachelorarbeit', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       console.log('Bachelor Anmeldung erstellt:', response.data);

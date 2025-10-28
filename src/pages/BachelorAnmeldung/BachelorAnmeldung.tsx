@@ -9,6 +9,8 @@ import {
   Select,
   Option,
   Typography,
+  Snackbar,
+  Alert,
 } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +26,9 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
   const thema = useRef('');
   const prüfer = useRef('');
   const [exposeFile, setExposeFile] = useState<File | null>(null);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +66,18 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
     formData.append('prüfer', prüfer.current);
     formData.append('expose', exposeFile);
 
+    //await onApi(formData);
+    try {
     await onApi(formData);
+
+    setOpenSnackbar(true);
+
+    // Optional: Formular zurücksetzen
+    setExposeFile(null);
+  } catch (error) {
+    console.error('Fehler beim API-Aufruf:', error);
+    setOpenErrorSnackbar(true);
+  }
   };
 
   return (
@@ -162,6 +178,28 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
       <Button type="submit" variant="solid" color="primary">
         {t('pages.forms.bachelorAnmeldung.submitButton')}
       </Button>
+      {/* ✅ Snackbar für Erfolg */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert color="success" variant="soft">
+          {t('pages.forms.bachelorAnmeldung.successMessage') ||
+            'Exposé erfolgreich eingereicht!'}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openErrorSnackbar}
+        autoHideDuration={4000}
+        onClose={() => setOpenErrorSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <Alert color="danger" variant="soft">
+          {t('pages.forms.bachelorAnmeldung.submitFailed', 'Fehler beim Einreichen der Anmeldung!')}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
