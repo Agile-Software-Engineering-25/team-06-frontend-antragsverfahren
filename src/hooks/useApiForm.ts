@@ -7,13 +7,11 @@ import type {
 } from '@/@custom-types/formTypes';
 
 export default function useApiForm() {
-  console.log(BACKEND_BASE_URL);
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
 
   const createNachklausurAntrag = useCallback(
     async (data: NachklausurAntrag) => {
       const response = await axiosInstance.post('/nachklausur', data);
-      console.log('Nachklausur Antrag erstellt:', response.data);
       return response.data;
     },
     [axiosInstance]
@@ -22,7 +20,6 @@ export default function useApiForm() {
   const createBachelorAnmeldung = useCallback(
     async (data: BachelorAnmeldung) => {
       const response = await axiosInstance.post('/bachelorarbeit', data);
-      console.log('Bachelor Anmeldung erstellt:', response.data);
       return response.data;
     },
     [axiosInstance]

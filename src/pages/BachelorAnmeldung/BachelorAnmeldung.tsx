@@ -17,8 +17,6 @@ export default function BachelorAnmeldung({
 }) {
   const { t } = useTranslation();
 
-  const name = useRef('');
-  const matrikelnummer = useRef('');
   const studiengang = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
@@ -28,8 +26,6 @@ export default function BachelorAnmeldung({
     e.preventDefault();
     // Basic validation
     if (
-      !name.current ||
-      !matrikelnummer.current ||
       !studiengang.current ||
       !prüfungstermin.current ||
       !thema.current ||
@@ -39,7 +35,7 @@ export default function BachelorAnmeldung({
         t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
-            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
+            `pages.forms.bachelorAnmeldung.${(!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
           ) +
           ')'
       );
@@ -47,8 +43,6 @@ export default function BachelorAnmeldung({
     }
 
     const bachelorAnmeldung: BachelorAnmeldung = {
-      name: name.current,
-      matrikelnummer: matrikelnummer.current,
       studiengang: studiengang.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
       thema: thema.current,
@@ -71,21 +65,6 @@ export default function BachelorAnmeldung({
         p: 2,
       }}
     >
-      <FormControl>
-        <Input
-          onChange={(e) => (name.current = e.target.value)}
-          required
-          placeholder={t('pages.forms.bachelorAnmeldung.nameLabel')}
-        />
-      </FormControl>
-
-      <FormControl>
-        <Input
-          onChange={(e) => (matrikelnummer.current = e.target.value)}
-          required
-          placeholder={t('pages.forms.bachelorAnmeldung.matrikelnummerLabel')}
-        />
-      </FormControl>
 
       <FormControl>
         <Select
@@ -153,7 +132,7 @@ export default function BachelorAnmeldung({
       </FormControl>
 
       <FileUpload
-        onFile={console.log('Expose')} //TODO
+        onFile={() => console.log('Expose')} //TODO
         sx={{
           width: 'auto',
           alignSelf: 'flex-start',
