@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
+import { Box, Button, FormControl, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
@@ -13,8 +13,6 @@ export default function NachklausurAntrag({
 }) {
   const { t } = useTranslation();
 
-  const name = useRef('');
-  const matrikelnummer = useRef('');
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
 
@@ -22,8 +20,6 @@ export default function NachklausurAntrag({
     e.preventDefault();
 
     if (
-      !name.current ||
-      !matrikelnummer.current ||
       !modul.current ||
       !prüfungstermin.current
     ) {
@@ -31,7 +27,7 @@ export default function NachklausurAntrag({
         t('pages.forms.nachklausur.submitError') +
           ' (' +
           t(
-            `pages.forms.nachklausur.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
+            `pages.forms.nachklausur.${(!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
           ) +
           ')'
       );
@@ -39,8 +35,6 @@ export default function NachklausurAntrag({
     }
 
     const nachklausurAntrag: NachklausurAntrag = {
-      name: name.current,
-      matrikelnummer: matrikelnummer.current,
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
     };
@@ -62,22 +56,6 @@ export default function NachklausurAntrag({
         p: 2,
       }}
     >
-      <FormControl>
-        <Input
-          onChange={(e) => (name.current = e.target.value)}
-          required
-          placeholder={t('pages.forms.nachklausur.nameLabel')}
-        />
-      </FormControl>
-
-      <FormControl>
-        <Input
-          onChange={(e) => (matrikelnummer.current = e.target.value)}
-          required
-          placeholder={t('pages.forms.nachklausur.matrikelnummerLabel')}
-        />
-      </FormControl>
-
       <FormControl>
         <Select
           onChange={(_, newValue: string | null) =>
