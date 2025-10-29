@@ -1,22 +1,22 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import { Box, Button, FormControl, Option, Select, Snackbar, Alert } from '@mui/joy';
+import { Box, Button, FormControl, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
-import type { NachklausurAntrag } from '@/@custom-types/formTypes';
+import type { AlertMessage, NachklausurAntrag } from '@/@custom-types/formTypes';
 import EmailIcon from '@mui/icons-material/Email';
 
 export default function NachklausurAntrag({
   onApi,
+  onAlert
 }: {
   onApi: (data: NachklausurAntrag) => Promise<void>;
+  onAlert: React.Dispatch<React.SetStateAction<AlertMessage | undefined>>;
 }) {
   const { t } = useTranslation();
 
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
-
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,14 +25,16 @@ export default function NachklausurAntrag({
       !modul.current ||
       !prüfungstermin.current
     ) {
-      alert(
-        t('pages.forms.nachklausur.submitError') +
-          ' (' +
-          t(
-            `pages.forms.nachklausur.${(!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
-          ) +
-          ')'
-      );
+        onAlert({
+          isOn: true,
+          variant: 'error',
+          message: t('pages.forms.nachklausur.submitError') +
+            ' (' +
+            t(
+              `pages.forms.nachklausur.${(!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
+            ) +
+            ')'
+        });
       return;
     }
 
@@ -42,11 +44,17 @@ export default function NachklausurAntrag({
     };
     try{
       await onApi(nachklausurAntrag);
-      setOpenSnackbar(true);
-    }catch(err){
-      console.error(err);
-      alert("Antrag konnte nicht abgeschickt werden");
-      return;
+      onAlert({
+        isOn: true,
+        variant: 'success',
+        message: t('pages.forms.nachklausur.success'),
+      });
+    } catch {
+      onAlert({
+        isOn: true,
+        variant: 'error',
+        message: t('pages.forms.nachklausur.submitFailed'),
+      });
     }
   };
 
@@ -106,17 +114,6 @@ export default function NachklausurAntrag({
       >
         {t('pages.forms.nachklausur.submitButton')}
       </Button>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert color="success" variant="soft">
-          {t('pages.forms.nachklausur.successMessage') ||
-            'Antrag erfolgreich eingereicht!'}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 }

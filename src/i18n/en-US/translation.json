@@ -5,13 +5,12 @@
         "accordion": "Apply for a re-examination:",
         "title": "Re-examination application",
         "description": "Here you can apply for a re-examination.",
-        "modulLabel": "Module",
         "modulAuswählen": "Select Module",
         "prüfungsterminLabel": "Exam date",
         "uploadBtn": "Upload exposé",
         "submitError": "Please fill out all fields.",
+        "submitFailed": "Registration failed. Please try again.",
         "submitButton": "Submit application",
-        "successMessage": "Submit is successful!",
         "success":"The re-examination application has been successfully submitted. A confirmation is waiting for you in your mailbox."
       },
       "bachelorAnmeldung": {
@@ -26,7 +25,6 @@
         "submitError": "Please fill out all fields.",
         "submitFailed": "Registration failed. Please try again.",
         "submitButton": "Submit Application",
-        "successMessage": "Registration submitted successfully!",
         "exposeHochladen": "Upload expose",
         "success": "Your bachelor thesis registration has been successfully submitted. A confirmation email is waiting for you in your inbox."
       },

@@ -1,16 +1,25 @@
 // @ts-nocheck
 import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import { Box, Button, FormControl, Input, Option, Select, Snackbar,  Alert } from '@mui/joy';
+import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
-import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
+import type {
+  AlertMessage,
+  BachelorAnmeldung,
+} from '@/@custom-types/formTypes';
 import FileUpload from '../../components/FileUpload/FileUpload.tsx';
 import EmailIcon from '@mui/icons-material/Email';
 
 const mockedPruefer = ['Volk', 'Daubert', 'Hutter', 'Scheidemann'];
 
-export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeldung) => Promise<void>}) {
+export default function BachelorAnmeldung({
+  onApi,
+  onAlert,
+}: {
+  onApi: (data: BachelorAnmeldung) => Promise<void>;
+  onAlert: React.Dispatch<React.SetStateAction<AlertMessage | undefined>>;
+}) {
   const { t } = useTranslation();
 
   const studiengang = useRef('');
@@ -18,9 +27,6 @@ export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeld
   const thema = useRef('');
   const prüfer = useRef('');
   // const [exposeFile, setExposeFile] = useState<File | null>(null);
-
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,14 +37,18 @@ export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeld
       !thema.current ||
       !prüfer.current
     ) {
-      alert(
-        t('pages.forms.bachelorAnmeldung.submitError') +
+      onAlert({
+        isOn: true,
+        variant: 'error',
+        message:
+          t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
             `pages.forms.bachelorAnmeldung.${(!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
           ) +
-          ')'
-      );
+          ')',
+      });
+
       return;
     }
 
@@ -52,13 +62,17 @@ export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeld
 
     try {
       await onApi(bachelorAnmeldung);
-      setOpenSnackbar(true);
-
-      // Optional: Formular zurücksetzen
-      // setExposeFile(null);
-    } catch (error) {
-      console.error('Fehler beim API-Aufruf:', error);
-      setOpenErrorSnackbar(true);
+      onAlert({
+        isOn: true,
+        variant: 'success',
+        message: t('pages.forms.bachelorAnmeldung.success'),
+      });
+    } catch {
+      onAlert({
+        isOn: true,
+        variant: 'error',
+        message: t('pages.forms.bachelorAnmeldung.submitFailed'),
+      });
     }
   };
 
@@ -75,7 +89,6 @@ export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeld
         p: 2,
       }}
     >
-
       <FormControl>
         <Select
           onChange={(_, newValue: string | null) =>
@@ -163,28 +176,6 @@ export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeld
       >
         {t('pages.forms.bachelorAnmeldung.submitButton')}
       </Button>
-      {/* ✅ Snackbar für Erfolg */}
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      >
-        <Alert color="success" variant="soft">
-          {t('pages.forms.bachelorAnmeldung.successMessage') ||
-            'Exposé erfolgreich eingereicht!'}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={openErrorSnackbar}
-        autoHideDuration={4000}
-        onClose={() => setOpenErrorSnackbar(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      >
-        <Alert color="danger" variant="soft">
-          {t('pages.forms.bachelorAnmeldung.submitFailed', 'Fehler beim Einreichen der Anmeldung!')}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 }
