@@ -11,6 +11,7 @@
         "uploadBtn": "Upload exposé",
         "submitError": "Please fill out all fields.",
         "submitButton": "Submit application",
+        "successMessage": "Submit is successful!",
         "success":"The re-examination application has been successfully submitted. A confirmation is waiting for you in your mailbox."
       },
       "bachelorAnmeldung": {
