@@ -1,37 +1,22 @@
 {
   "pages": {
-    "home": {
-      "title": "Home",
-      "description": "This is the frontend-template project. Here you can find the technologies and tools used in this project.",
-      "weatherButton": "WEATHER"
-    },
-    "weather": {
-      "title": "Weather",
-      "description": "This shows the weather of the Telekom office at Winterfeldtstraße 21, 10781 Berlin.",
-      "getWeatherButton": "GET WEATHER",
-      "weatherHeader": "Current Weather",
-      "temperature": "Temperature"
-    },
     "forms": {
       "nachklausur": {
         "accordion": "Apply for a re-examination:",
-        "title": "Re-examination Application",
+        "title": "Re-examination application",
         "description": "Here you can apply for a re-examination.",
-        "nameLabel": "Name",
-        "matrikelnummerLabel": "Student number",
         "modulLabel": "Module",
         "modulAuswählen": "Select Module",
         "prüfungsterminLabel": "Exam date",
-        "uploadBtn": "Upload",
+        "uploadBtn": "Upload exposé",
         "submitError": "Please fill out all fields.",
-        "submitButton": "Submit Application"
+        "submitButton": "Submit application",
+        "success":"The re-examination application has been successfully submitted. A confirmation is waiting for you in your mailbox."
       },
       "bachelorAnmeldung": {
-        "accordion": "Register for the Bachelor examination:",
-        "title": "Bachelor Registration",
-        "description": "Here you can register for the Bachelor examination.",
-        "nameLabel": "Name",
-        "matrikelnummerLabel": "Student number",
+        "accordion": "Register for the Bachelor thesis:",
+        "title": "Bachelor thesis registration",
+        "description": "Here you can register for the Bachelor thesis.",
         "studiengangLabel": "Course of Study",
         "studiengangAuswählen": "Select Course of Study",
         "themaLabel": "Topic",
@@ -40,11 +25,13 @@
         "submitError": "Please fill out all fields.",
         "submitFailed": "Registration failed. Please try again.",
         "submitButton": "Submit Application",
-        "exposeLabel": "Upload Expose",
-        "successMessage": "Registration submitted successfully!"
+        "successMessage": "Registration submitted successfully!",
+        "exposeHochladen": "Upload expose",
+        "success": "Your bachelor thesis registration has been successfully submitted. A confirmation email is waiting for you in your inbox."
       },
       "studienbescheinigung": {
         "accordion": "Download study certificate:",
+        "title": "Study certificate",
         "buttonLabel": "Download",
         "error": "Error downloading study certificate."
       }

@@ -1,26 +1,18 @@
 import { useRef, useState } from 'react';
 import { Dayjs } from 'dayjs';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Option,
-  Typography,
-  Snackbar,
-  Alert,
-} from '@mui/joy';
+import { Box, Button, FormControl, Option, Select, Snackbar, Alert } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { NachklausurAntrag } from '@/@custom-types/formTypes';
+import EmailIcon from '@mui/icons-material/Email';
 
-export default function NachklausurAntrag({ onApi }: { onApi: (data: NachklausurAntrag) => Promise<void> }) {
+export default function NachklausurAntrag({
+  onApi,
+}: {
+  onApi: (data: NachklausurAntrag) => Promise<void>;
+}) {
   const { t } = useTranslation();
 
-  const name = useRef('');
-  const matrikelnummer = useRef('');
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
 
@@ -30,8 +22,6 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
     e.preventDefault();
 
     if (
-      !name.current ||
-      !matrikelnummer.current ||
       !modul.current ||
       !prüfungstermin.current
     ) {
@@ -39,7 +29,7 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
         t('pages.forms.nachklausur.submitError') +
           ' (' +
           t(
-            `pages.forms.nachklausur.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
+            `pages.forms.nachklausur.${(!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
           ) +
           ')'
       );
@@ -47,8 +37,6 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
     }
 
     const nachklausurAntrag: NachklausurAntrag = {
-      name: name.current,
-      matrikelnummer: matrikelnummer.current,
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
     };
@@ -73,28 +61,10 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
         width: '70%',
         mx: 'auto',
         my: 2,
-        p: 2
+        p: 2,
       }}
     >
-      <Typography level="h4">{t('pages.forms.nachklausur.title')}</Typography>
-
       <FormControl>
-        <FormLabel>{t('pages.forms.nachklausur.nameLabel')}</FormLabel>
-        <Input onChange={(e) => (name.current = e.target.value)} required />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.nachklausur.matrikelnummerLabel')}
-        </FormLabel>
-        <Input
-          onChange={(e) => (matrikelnummer.current = e.target.value)}
-          required
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>{t('pages.forms.nachklausur.modulLabel')}</FormLabel>
         <Select
           onChange={(_, newValue: string | null) =>
             (modul.current = newValue ?? '')
@@ -109,15 +79,31 @@ export default function NachklausurAntrag({ onApi }: { onApi: (data: Nachklausur
       </FormControl>
 
       <FormControl>
-        <FormLabel>
-          {t('pages.forms.nachklausur.prüfungsterminLabel')}
-        </FormLabel>
         <DatePicker
           onChange={(newDate) => (prüfungstermin.current = newDate)}
+          label={t('pages.forms.nachklausur.prüfungsterminLabel')}
+          slotProps={{
+            textField: {
+              sx: {
+                backgroundColor: '#fff',
+                borderRadius: '8px',
+              },
+            },
+          }}
         />
       </FormControl>
 
-      <Button type="submit" variant="solid" color="primary">
+      <Button
+        type="submit"
+        variant="solid"
+        color="primary"
+        startDecorator={<EmailIcon />}
+        sx={{
+          width: 'auto',
+          alignSelf: 'flex-start',
+          px: 3,
+        }}
+      >
         {t('pages.forms.nachklausur.submitButton')}
       </Button>
       <Snackbar

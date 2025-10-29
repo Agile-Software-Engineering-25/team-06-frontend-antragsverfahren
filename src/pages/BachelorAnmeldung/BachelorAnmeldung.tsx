@@ -1,31 +1,23 @@
-import { useRef, useState } from 'react';
+// @ts-nocheck
+import { useRef } from 'react';
 import { Dayjs } from 'dayjs';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Option,
-  Typography,
-  Snackbar,
-  Alert,
-} from '@mui/joy';
+import { Box, Button, FormControl, Input, Option, Select, Snackbar,  Alert } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
 import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
+import FileUpload from '../../components/FileUpload/FileUpload.tsx';
+import EmailIcon from '@mui/icons-material/Email';
 
-export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) => Promise<void> }) {
+const mockedPruefer = ['Volk', 'Daubert', 'Hutter', 'Scheidemann'];
+
+export default function BachelorAnmeldung({onApi}: {onApi: (data: BachelorAnmeldung) => Promise<void>}) {
   const { t } = useTranslation();
 
-  const name = useRef('');
-  const matrikelnummer = useRef('');
   const studiengang = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
   const prüfer = useRef('');
-  const [exposeFile, setExposeFile] = useState<File | null>(null);
+  // const [exposeFile, setExposeFile] = useState<File | null>(null);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
@@ -34,8 +26,6 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
     e.preventDefault();
     // Basic validation
     if (
-      !name.current ||
-      !matrikelnummer.current ||
       !studiengang.current ||
       !prüfungstermin.current ||
       !thema.current ||
@@ -45,39 +35,31 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
         t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
-            `pages.forms.bachelorAnmeldung.${(!name.current && 'name') || (!matrikelnummer.current && 'matrikelnummer') || (!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
+            `pages.forms.bachelorAnmeldung.${(!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
           ) +
           ')'
       );
       return;
     }
 
-    if (!exposeFile) {
-      alert(t('pages.forms.bachelorAnmeldung.exposeError'));
-      return;
-    }
+    const bachelorAnmeldung: BachelorAnmeldung = {
+      studiengang: studiengang.current,
+      prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
+      thema: thema.current,
+      prüfer: prüfer.current,
+      // expose: exposeFile,
+    };
 
-    const formData = new FormData();
-    formData.append('name', name.current);
-    formData.append('matrikelnummer', matrikelnummer.current);
-    formData.append('studiengang', studiengang.current);
-    formData.append('prüfungstermin', prüfungstermin.current!.format('DD-MM-YYYY'));
-    formData.append('thema', thema.current);
-    formData.append('prüfer', prüfer.current);
-    formData.append('expose', exposeFile);
-
-    //await onApi(formData);
     try {
-    await onApi(formData);
+      await onApi(bachelorAnmeldung);
+      setOpenSnackbar(true);
 
-    setOpenSnackbar(true);
-
-    // Optional: Formular zurücksetzen
-    setExposeFile(null);
-  } catch (error) {
-    console.error('Fehler beim API-Aufruf:', error);
-    setOpenErrorSnackbar(true);
-  }
+      // Optional: Formular zurücksetzen
+      // setExposeFile(null);
+    } catch (error) {
+      console.error('Fehler beim API-Aufruf:', error);
+      setOpenErrorSnackbar(true);
+    }
   };
 
   return (
@@ -88,35 +70,13 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        width: '70%',
         mx: 'auto',
         my: 2,
-        p: 2
+        p: 2,
       }}
     >
-      <Typography level="h4">
-        {t('pages.forms.bachelorAnmeldung.title')}
-      </Typography>
 
       <FormControl>
-        <FormLabel>{t('pages.forms.bachelorAnmeldung.nameLabel')}</FormLabel>
-        <Input onChange={(e) => (name.current = e.target.value)} required />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.matrikelnummerLabel')}
-        </FormLabel>
-        <Input
-          onChange={(e) => (matrikelnummer.current = e.target.value)}
-          required
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.studiengangLabel')}
-        </FormLabel>
         <Select
           onChange={(_, newValue: string | null) =>
             (studiengang.current = newValue ?? '')
@@ -141,41 +101,66 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: FormData) =
       </FormControl>
 
       <FormControl>
-        <FormLabel>{t('pages.forms.bachelorAnmeldung.themaLabel')}</FormLabel>
-        <Input onChange={(e) => (thema.current = e.target.value)} required />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.prüferLabel')}
-        </FormLabel>
         <Input
-          onChange={(e) => (prüfer.current = e.target.value)}
+          onChange={(e) => (thema.current = e.target.value)}
           required
+          placeholder={t('pages.forms.bachelorAnmeldung.themaLabel')}
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.prüfungsterminLabel')}
-        </FormLabel>
+        <Select
+          onChange={(_, newValue: string | null) =>
+            (prüfer.current = newValue ?? '')
+          }
+          required
+          placeholder={t('pages.forms.bachelorAnmeldung.prüferLabel')}
+        >
+          <div>
+            {mockedPruefer.map((p) => (
+              <Option key={p} value={p}>
+                {p}
+              </Option>
+            ))}
+          </div>
+        </Select>
+      </FormControl>
+
+      <FormControl>
         <DatePicker
           onChange={(newDate) => (prüfungstermin.current = newDate)}
+          label={t('pages.forms.bachelorAnmeldung.prüfungsterminLabel')}
+          slotProps={{
+            textField: {
+              sx: {
+                backgroundColor: '#fff',
+                borderRadius: '8px',
+              },
+            },
+          }}
         />
       </FormControl>
 
-      <FormControl>
-        <FormLabel>
-          {t('pages.forms.bachelorAnmeldung.exposeLabel')}
-        </FormLabel>
-        <Input
-          type="file"
-          onChange={e => setExposeFile(e.target.files?.[0] ?? null)}
-          required
-        />
-      </FormControl>
+      <FileUpload
+        onFile={() => console.log('Expose')} //TODO
+        sx={{
+          width: 'auto',
+          alignSelf: 'flex-start',
+          px: 3,
+        }}
+      ></FileUpload>
 
-      <Button type="submit" variant="solid" color="primary">
+      <Button
+        type="submit"
+        variant="solid"
+        color="primary"
+        startDecorator={<EmailIcon />}
+        sx={{
+          width: 'auto',
+          alignSelf: 'flex-start',
+          px: 3,
+        }}
+      >
         {t('pages.forms.bachelorAnmeldung.submitButton')}
       </Button>
       {/* ✅ Snackbar für Erfolg */}

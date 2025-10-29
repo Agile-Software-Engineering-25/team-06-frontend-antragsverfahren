@@ -1,38 +1,23 @@
 {
   "pages": {
-    "home": {
-      "title": "Startseite",
-      "description": "Das ist das frontend-template Projekt. Hier werden die Technologien und Tools vorgestellt, die in diesem Projekt verwendet werden.",
-      "weatherButton": "WETTER"
-    },
-    "weather": {
-      "title": "Wetter",
-      "description": "Hier wird das Wetter des Telekom Büros in der Winterfeldtstraße 21, 10781 Berlin angezeigt.",
-      "getWeatherButton": "WETTER ABRUFEN",
-      "weatherHeader": "Aktuelles Wetter",
-      "temperature": "Temperatur"
-    },
     "forms": {
       "nachklausur": {
         "accordion": "Für eine Nachklausur beantragen:",
         "title": "Nachklausurantrag",
         "description": "Hier können Sie einen Nachklausurantrag stellen.",
-        "nameLabel": "Name",
-        "matrikelnummerLabel": "Matrikelnummer",
         "modulLabel": "Modul",
         "modulAuswählen": "Modul auswählen",
         "prüfungsterminLabel": "Prüfungstermin",
-        "uploadBtn": "Hochladen",
+        "uploadBtn": "Exposé hochladen",
         "submitError": "Bitte füllen Sie alle Felder aus.",
         "submitButton": "Antrag einreichen",
-        "successMessage": "Antrag erfolgreich eingereicht!"
+        "successMessage": "Antrag erfolgreich eingereicht!",
+        "success": "Nachklausurantrag wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."
       },
       "bachelorAnmeldung": {
         "accordion": "Für die Bachelorprüfung anmelden:",
-        "title": "Bachelor Anmeldung",
+        "title": "Bachelorarbeitanmeldung",
         "description": "Hier können Sie sich für die Bachelorprüfung anmelden.",
-        "nameLabel": "Name",
-        "matrikelnummerLabel": "Matrikelnummer",
         "studiengangLabel": "Studiengang",
         "studiengangAuswählen": "Studiengang auswählen",
         "themaLabel": "Thema",
@@ -41,11 +26,13 @@
         "submitError": "Bitte füllen Sie alle Felder aus.",
         "submitFailed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
         "submitButton": "Anmeldung einreichen",
-        "exposeLabel": "Expose Hochladen",
-        "successMessage": "Anmeldung erfolgreich eingereicht!"
+        "successMessage": "Anmeldung erfolgreich eingereicht!",
+        "exposeHochladen": "Expose hochladen",
+        "success": "Bachelorarbeitanmeldung wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."
       },
       "studienbescheinigung": {
         "accordion": "Studienbescheinigung herunterladen:",
+        "title": "Studienbescheinigung",
         "buttonLabel": "Herunterladen",
         "error": "Fehler beim Herunterladen der Studienbescheinigung."
       }

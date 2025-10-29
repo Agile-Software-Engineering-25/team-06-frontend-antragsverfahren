@@ -1,25 +1,49 @@
-import * as React from 'react';
 import NachklausurAntrag from '../Nachklausur/NachklausurAntrag';
 import BachelorAnmeldung from '../BachelorAnmeldung/BachelorAnmeldung';
 import { useTranslation } from 'react-i18next';
 import useApiForm from '@/hooks/useApiForm';
-import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Typography, Box, Button } from '@mui/joy';
+import { Box } from '@mui/joy';
+import { Accordion } from '@agile-software/shared-components';
+import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
 import { useSearchParams } from 'react-router';
 
 export default function FormsPage() {
-  const [params, setParams] = useSearchParams();
-  const nachklausurRef = React.useRef<HTMLDivElement | null>(null);
-  const bachelorRef = React.useRef<HTMLDivElement | null>(null);
-
-  const [expanded, setExpanded] = React.useState<string | false>(false);
-
   const { t } = useTranslation();
 
-  const { createNachklausurAntrag, createBachelorAnmeldung, getStudienbescheinigung, uploadBachelorthesisExpose } = useApiForm();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const accordionParam = searchParams.get('accordion');
 
-  const [exposeFile, setExposeFile] = React.useState<File | null>(null);
+  const { createNachklausurAntrag, createBachelorAnmeldung } = useApiForm();
+
+  const handleAccordionChange = (id: string, expanded: boolean) => {
+    if (expanded) {
+      setSearchParams({ accordion: id }); // setzt z. B. ?accordion=nachklausur
+    } else {
+      setSearchParams({}); // entfernt ?accordion komplett
+    }
+  };
+
+  const accordionItems = [
+    {
+      id: 'nachklausur',
+      header: t('pages.forms.nachklausur.title'),
+      children: <NachklausurAntrag onApi={createNachklausurAntrag} />,
+      expand: accordionParam === 'nachklausur',
+      onChange: (expanded: boolean) =>
+        handleAccordionChange('nachklausur', expanded),
+    },
+    {
+      id: 'bachelor',
+      header: t('pages.forms.bachelorAnmeldung.title'),
+      children: <BachelorAnmeldung onApi={createBachelorAnmeldung} />,
+      expand: accordionParam === 'bachelor',
+      onChange: (expanded: boolean) =>
+        handleAccordionChange('bachelor', expanded),
+    },
+  ];
+
+  /*
+ const [exposeFile, setExposeFile] = React.useState<File | null>(null);
 
   const onBachelorthesisExposeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,88 +65,54 @@ export default function FormsPage() {
       alert('Upload fehlgeschlagen');
     }
   };
-
-  const handleChange = (tab: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
-    setParams(isExpanded ? { tab: tab } : {});
-  };
-
-  const onStudienbescheinigung = async (): Promise<void> => {
-    const data = await getStudienbescheinigung();
-    if(data){
-      const url = URL.createObjectURL(data);
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }else{
-        alert(t('pages.forms.studienbescheinigung.error'));
-    }
-  }
-
-  React.useEffect(() => {
-    const tab = params.get("tab");
-    if (tab === "1") {
-      setExpanded("Nachklausur");
-      nachklausurRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (tab === "2") {
-      setExpanded("Bachelor");
-      bachelorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      setExpanded(false);
-      setParams({});
-    }
-  }, [params]);
+  */
 
   return (
     <Box
       sx={{
-        mx: "auto",
-        width: "70%",
-        maxWidth: "1200px",
-        display: "flex",
-        flexDirection: "column", // wichtig, sonst alle nebeneinander
-        justifyContent: "center",
-        py: 10,
-        px: 10,
+        mx: 'auto',
+        width: { xs: '100%', sm: '90%', md: '70%' },
+        maxWidth: '1200px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        py: { xs: 4, sm: 6, md: 10 },
+        px: { xs: 2, sm: 4, md: 10 },
+        gap: 3,
       }}
     >
-      {/* Studienbescheinigung */}
-      <Accordion expanded>
-        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: "95%", p: 2}}>
-          <Typography level="title-sm">{t("pages.forms.studienbescheinigung.accordion")}</Typography>
-          <Button sx={{  px: 3 }} variant="solid" color="primary" onClick={onStudienbescheinigung}>{t("pages.forms.studienbescheinigung.buttonLabel")}</Button>
-        </Box>
-      </Accordion>
+      <StudienbescheinigungCard />
 
-      {/* Nachklausur */}
-      <Accordion ref={nachklausurRef} expanded={expanded === 'Nachklausur'} onChange={handleChange('1')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          {t("pages.forms.nachklausur.accordion")}
-        </AccordionSummary>
-        <AccordionDetails>
-          <NachklausurAntrag onApi={createNachklausurAntrag}/>
-        </AccordionDetails>
-      </Accordion>
-
-      {/* Bachelor Anmeldung */}
-      <Accordion ref={bachelorRef} expanded={expanded === 'Bachelor'} onChange={handleChange('2')}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          {t("pages.forms.bachelorAnmeldung.accordion")}
-        </AccordionSummary>
-        <AccordionDetails>
-          <BachelorAnmeldung onApi={createBachelorAnmeldung} />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "95%",
-              p: 2,
-            }}
-          >
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+      <Accordion
+        items={accordionItems}
+        multiple={false}
+        accordionGroupSX={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 3,
+          boxShadow: '0',
+        }}
+        accordionSX={{
+          borderRadius: '10px',
+          backgroundColor: '#f3f8ff',
+          boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+          px: { xs: 1, sm: 2, md: 3 },
+          py: { xs: 1, sm: 2, md: 3 },
+          overflow: 'hidden',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.15)',
+            transform: { xs: 'none', md: 'translateY(-2px)' },
+          },
+          '&:before': { display: 'none' },
+        }}
+        headerSX={{
+          fontWeight: 'bold',
+          color: '#00122B',
+          userSelect: 'none',
+          fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
+        }}
+      />
     </Box>
-
   );
-
 }

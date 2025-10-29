@@ -3,14 +3,6 @@ This is a template project. Fork it and customize it to your needs.
 This project contains example use cases for all technologies listed below. (It is not pretty but that is not the point)
 
 # Setup
-
-Execute the following commands when you clone the project for the first time:
-
-Make sure to execute this inside a bash environment (GitBash on windows)
-```bash
-npm run init
-```
-and then this (no matter where):
 ```bash
 npm i
 ```
@@ -21,7 +13,6 @@ npm i
 - `npm run build` - package the application
 - `npm run cy:open` - open the UI of Cypress for testing
 - `npm run cy:run` - run all tests with a headless browser
-- `npm run updateSharedComponents` - update the shared-components library to the newest version
 
 # Technologies
 
@@ -39,24 +30,7 @@ npm i
 │   ├─ videos/                          # Videos from failed tests
 │   │   └─ home.cy.ts.mp4               # Sample video
 ├─ src/                                 # Main application source code
-│   ├─ @custom-types/                   # Custom global TypeScript type declarations
-│   ├─ components/                      # Reusable UI components
-│   │   └─ RoutingComponent/            # Folder for the UserInfoCard component
-│   │       └─ RoutingComponent.tsx     # Implementation of the UserInfoCard component
-│   ├─ hooks/                           # Custom React hooks
-│   ├─ i18n/                            # Internationalization setup and translations
-│   │   ├─ de-DE/                       # German language translations
-│   │   │   └─ translation.json         # German translation strings
-│   │   ├─ en-US/                       # English language translations
-│   │   │   └─ translation.json         # English translation strings
-│   │   └─ index.ts                     # i18n initialization and config
-│   ├─ pages/                           # Top-level route components
-│   │   ├─ Home/                        # Folder for the homepage
-│   │   │   └─ Home.tsx                 # Implementation of the HomePage component
-│   ├─ utils/                           # General utility/helper functions
-│   ├─ App.tsx                          # Root app component, sets up routes/layout
-│   └─ main.tsx                         # Application entry point (ReactDOM.render)
-│   └─ config.ts                        # global application configurations (e.g. backend-base-url)
+│   │ ...
 ├─ cypress.config.ts                    # Cypress configuration file
 ├─ eslint.config.js                     # ESLint configuration for linting rules
 ├─ package.json                         # Project metadata and dependency definitions
@@ -104,26 +78,6 @@ Axios is a JavaScript library for making HTTP requests, often used in React apps
 
 API docs: https://axios-http.com/docs/api_intro
 
-### Custom Types
-
-Organize your custom types and enums in dedicated files located in the `@types/` directory. In the `@types/` directory, you can put your `customTypes.ts` files and import them into your application.
-
-# shared-components
-
-This project uses a custom component library. $\to$ shared-components.
-
-It is a git submodule located at the root of the project.
-
-You can use the library as any other npm package. If you want to change anything on the library see the Contribution Documentation: [Contribute to shared-components](https://agile-software-engineering-25.github.io/documentation/docs/Frontend/shared-components/developing)
-
-## Single-spa microfrontend
-
-This template builds as a microfrontend that can run standalone for local development or be mounted by a single-spa host.
-
-- Build output: ES module library at dist/index.js exporting bootstrap, mount, unmount
-- Shared deps are externalized: react, react-dom, react-router, single-spa, single-spa-react
-- Local dev: index.html loads src/standalone.tsx to render the app without a host
-
 ### Local development
 
 ```bash
@@ -136,32 +90,3 @@ npm run dev # serves standalone at http://localhost:5173
 ```bash
 npm run build
 ```
-
-Host integrates via import maps and registerApplication:
-
-```js
-// import map
-{
-  "imports": {
-    "@org/frontend-template": "https://cdn.example.com/frontend-template/index.js",
-    "react": "https://cdn.skypack.dev/react",
-    "react-dom": "https://cdn.skypack.dev/react-dom"
-  }
-}
-
-// host code
-registerApplication({
-  name: "@org/frontend-template",
-  app: () => import("@org/frontend-template"),
-  activeWhen: (loc) => loc.pathname.startsWith("/weather"),
-  customProps: {
-  // optional: basename, leave undefined if your internal routes include '/weather'
-  initialLocale: "en"
-  }
-});
-```
-
-# Todo
-
-- Single spa
-- add esling.config.js

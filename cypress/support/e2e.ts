@@ -16,8 +16,8 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 
-beforeEach(() => {
-  cy.intercept("GET", "https://api.brightsky.dev/current_weather*", {
-    fixture: "brightSkyApiGetCurrentWeather.json",
-  }).as("getCurrentWeather");
-});
+// beforeEach(() => {
+//   cy.intercept("GET", "https://api.brightsky.dev/current_weather*", {
+//     fixture: "brightSkyApiGetCurrentWeather.json",
+//   }).as("getCurrentWeather");
+// });
