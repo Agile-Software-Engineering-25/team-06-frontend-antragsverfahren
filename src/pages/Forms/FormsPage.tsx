@@ -2,12 +2,13 @@ import NachklausurAntrag from '../Nachklausur/NachklausurAntrag';
 import BachelorAnmeldung from '../BachelorAnmeldung/BachelorAnmeldung';
 import { useTranslation } from 'react-i18next';
 import useApiForm from '@/hooks/useApiForm';
-import { Box, Snackbar } from '@mui/joy';
+import { Box } from '@mui/joy';
 import { Accordion } from '@agile-software/shared-components';
 import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
 import { useSearchParams } from 'react-router';
 import { useState } from 'react';
 import type { AlertMessage } from '@/@custom-types/formTypes';
+import { Alert, Snackbar } from '@mui/material';
 
 export default function FormsPage() {
   const [alertMessage, setAlertMessage] = useState<undefined | AlertMessage>(
@@ -140,7 +141,9 @@ export default function FormsPage() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           color={alertMessage.variant as any}
         >
-          {alertMessage.message}
+          <Alert severity="success" variant="filled" sx={{paddingTop: "12px" }}>
+            {alertMessage.message}
+          </Alert>
         </Snackbar>
       )}
     </Box>
