@@ -27,6 +27,7 @@
         "prüferLabel": "Prüfer",
         "prüfungsterminLabel": "Prüfungstermin",
         "submitError": "Bitte füllen Sie alle Felder aus.",
+        "submitFailed": "Fehler beim Absenden der Anmeldung. Bitte versuchen Sie es erneut.",
         "submitButton": "Anmeldung einreichen",
         "exposeHochladen": "Expose hochladen",
         "success": "Bachelorarbeitanmeldung wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."

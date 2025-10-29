@@ -9,7 +9,6 @@ import {
   Input,
   Select,
   Option,
-  Typography,
   Snackbar,
   Alert,
 } from '@mui/joy';
@@ -220,7 +219,7 @@ export default function BachelorAnmeldung({ onApi }: { onApi: (data: BachelorAnm
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <Alert color="success" variant="soft">
-          {t('pages.forms.bachelorAnmeldung.successMessage') ||
+          {t('pages.forms.bachelorAnmeldung.success') ||
             'Exposé erfolgreich eingereicht!'}
         </Alert>
       </Snackbar>

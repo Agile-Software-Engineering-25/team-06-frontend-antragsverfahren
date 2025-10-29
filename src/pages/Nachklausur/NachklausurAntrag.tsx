@@ -4,11 +4,9 @@ import {
   Box,
   Button,
   FormControl,
-  FormLabel,
   Input,
   Select,
   Option,
-  Typography,
   Snackbar,
   Alert,
 } from '@mui/joy';
@@ -143,10 +141,10 @@ export default function NachklausurAntrag({
         open={openSnackbar}
         autoHideDuration={3000}
         onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
       >
         <Alert color="success" variant="soft">
-          {t('pages.forms.nachklausur.successMessage') ||
+          {t('pages.forms.nachklausur.success') ||
             'Antrag erfolgreich eingereicht!'}
         </Alert>
       </Snackbar>

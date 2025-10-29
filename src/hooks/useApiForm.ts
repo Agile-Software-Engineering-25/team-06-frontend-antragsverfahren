@@ -2,7 +2,6 @@ import useAxiosInstance from '@hooks/useAxiosInstance';
 import { BACKEND_BASE_URL } from '@/config';
 import { useCallback } from 'react';
 import type {
-  BachelorAnmeldung,
   NachklausurAntrag,
 } from '@/@custom-types/formTypes';
 

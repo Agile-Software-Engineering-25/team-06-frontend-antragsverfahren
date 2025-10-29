@@ -27,6 +27,7 @@
         "prüferLabel": "Examiner",
         "prüfungsterminLabel": "Exam date",
         "submitError": "Please fill out all fields.",
+        "submitFailed": "Error submitting the registration. Please try again.",
         "submitButton": "Submit Application",
         "exposeHochladen": "Upload expose",
         "success": "Your bachelor thesis registration has been successfully submitted. A confirmation email is waiting for you in your inbox."
