@@ -3,13 +3,15 @@ import { Dayjs } from 'dayjs';
 import { Box, Button, FormControl, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
-import type { NachklausurAntrag } from '@/@custom-types/formTypes';
+import type { AlertMessage, NachklausurAntrag } from '@/@custom-types/formTypes';
 import EmailIcon from '@mui/icons-material/Email';
 
 export default function NachklausurAntrag({
   onApi,
+  onAlert
 }: {
   onApi: (data: NachklausurAntrag) => Promise<void>;
+  onAlert: React.Dispatch<React.SetStateAction<AlertMessage | undefined>>;
 }) {
   const { t } = useTranslation();
 
@@ -23,14 +25,16 @@ export default function NachklausurAntrag({
       !modul.current ||
       !prüfungstermin.current
     ) {
-      alert(
-        t('pages.forms.nachklausur.submitError') +
-          ' (' +
-          t(
-            `pages.forms.nachklausur.${(!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
-          ) +
-          ')'
-      );
+        onAlert({
+          isOn: true,
+          variant: 'error',
+          message: t('pages.forms.nachklausur.submitError') +
+            ' (' +
+            t(
+              `pages.forms.nachklausur.${(!modul.current && 'modul') || (!prüfungstermin.current && 'prüfungstermin')}Label`
+            ) +
+            ')'
+        });
       return;
     }
 
@@ -38,8 +42,20 @@ export default function NachklausurAntrag({
       modul: modul.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
     };
-
-    await onApi(nachklausurAntrag);
+    try{
+      await onApi(nachklausurAntrag);
+      onAlert({
+        isOn: true,
+        variant: 'success',
+        message: t('pages.forms.nachklausur.success'),
+      });
+    } catch {
+      onAlert({
+        isOn: true,
+        variant: 'error',
+        message: t('pages.forms.nachklausur.submitFailed'),
+      });
+    }
   };
 
   return (
@@ -89,7 +105,7 @@ export default function NachklausurAntrag({
         type="submit"
         variant="solid"
         color="primary"
-        startDecorator=<EmailIcon />
+        startDecorator={<EmailIcon />}
         sx={{
           width: 'auto',
           alignSelf: 'flex-start',

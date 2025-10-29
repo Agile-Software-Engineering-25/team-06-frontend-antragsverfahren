@@ -9,3 +9,10 @@ export interface BachelorAnmeldung {
   prüfer: string;
   prüfungstermin: string;
 }
+
+
+export interface AlertMessage{
+  isOn: boolean;
+  variant: "success" | "info" | "warning" | "error";
+  message: string;
+}

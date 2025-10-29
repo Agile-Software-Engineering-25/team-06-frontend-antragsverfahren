@@ -4,7 +4,10 @@ import { Dayjs } from 'dayjs';
 import { Box, Button, FormControl, Input, Option, Select } from '@mui/joy';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTranslation } from 'react-i18next';
-import type { BachelorAnmeldung } from '@/@custom-types/formTypes';
+import type {
+  AlertMessage,
+  BachelorAnmeldung,
+} from '@/@custom-types/formTypes';
 import FileUpload from '../../components/FileUpload/FileUpload.tsx';
 import EmailIcon from '@mui/icons-material/Email';
 
@@ -12,8 +15,10 @@ const mockedPruefer = ['Volk', 'Daubert', 'Hutter', 'Scheidemann'];
 
 export default function BachelorAnmeldung({
   onApi,
+  onAlert,
 }: {
   onApi: (data: BachelorAnmeldung) => Promise<void>;
+  onAlert: React.Dispatch<React.SetStateAction<AlertMessage | undefined>>;
 }) {
   const { t } = useTranslation();
 
@@ -21,6 +26,7 @@ export default function BachelorAnmeldung({
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
   const prüfer = useRef('');
+  // const [exposeFile, setExposeFile] = useState<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,14 +37,18 @@ export default function BachelorAnmeldung({
       !thema.current ||
       !prüfer.current
     ) {
-      alert(
-        t('pages.forms.bachelorAnmeldung.submitError') +
+      onAlert({
+        isOn: true,
+        variant: 'error',
+        message:
+          t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
             `pages.forms.bachelorAnmeldung.${(!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
           ) +
-          ')'
-      );
+          ')',
+      });
+
       return;
     }
 
@@ -47,9 +57,23 @@ export default function BachelorAnmeldung({
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
       thema: thema.current,
       prüfer: prüfer.current,
+      // expose: exposeFile,
     };
 
-    await onApi(bachelorAnmeldung);
+    try {
+      await onApi(bachelorAnmeldung);
+      onAlert({
+        isOn: true,
+        variant: 'success',
+        message: t('pages.forms.bachelorAnmeldung.success'),
+      });
+    } catch {
+      onAlert({
+        isOn: true,
+        variant: 'error',
+        message: t('pages.forms.bachelorAnmeldung.submitFailed'),
+      });
+    }
   };
 
   return (
@@ -65,7 +89,6 @@ export default function BachelorAnmeldung({
         p: 2,
       }}
     >
-
       <FormControl>
         <Select
           onChange={(_, newValue: string | null) =>
@@ -106,13 +129,13 @@ export default function BachelorAnmeldung({
           required
           placeholder={t('pages.forms.bachelorAnmeldung.prüferLabel')}
         >
-          <>
+          <div>
             {mockedPruefer.map((p) => (
               <Option key={p} value={p}>
                 {p}
               </Option>
             ))}
-          </>
+          </div>
         </Select>
       </FormControl>
 
@@ -144,7 +167,7 @@ export default function BachelorAnmeldung({
         type="submit"
         variant="solid"
         color="primary"
-        startDecorator=<EmailIcon />
+        startDecorator={<EmailIcon />}
         sx={{
           width: 'auto',
           alignSelf: 'flex-start',

@@ -5,11 +5,11 @@
         "accordion": "Für eine Nachklausur beantragen:",
         "title": "Nachklausurantrag",
         "description": "Hier können Sie einen Nachklausurantrag stellen.",
-        "modulLabel": "Modul",
         "modulAuswählen": "Modul auswählen",
         "prüfungsterminLabel": "Prüfungstermin",
         "uploadBtn": "Exposé hochladen",
         "submitError": "Bitte füllen Sie alle Felder aus.",
+        "submitFailed": "Antrag fehlgeschlagen. Bitte versuchen Sie es erneut.",
         "submitButton": "Antrag einreichen",
         "success": "Nachklausurantrag wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."
       },
@@ -23,6 +23,7 @@
         "prüferLabel": "Prüfer",
         "prüfungsterminLabel": "Prüfungstermin",
         "submitError": "Bitte füllen Sie alle Felder aus.",
+        "submitFailed": "Antrag fehlgeschlagen. Bitte versuchen Sie es erneut.",
         "submitButton": "Anmeldung einreichen",
         "exposeHochladen": "Expose hochladen",
         "success": "Bachelorarbeitanmeldung wurde erfolgreich abgesendet. Eine Bestätigung wartet in Ihrem Postfach auf Sie."
