@@ -7,10 +7,12 @@ import { Accordion } from '@agile-software/shared-components';
 import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
 import { useSearchParams } from 'react-router';
 import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AlertMessage } from '@/@custom-types/formTypes';
 import { Alert, Snackbar } from '@mui/material';
 
 export default function FormsPage() {
+  const [dozNames, setDozNames] = useState<string[]>([]);
   const [dozNames, setDozNames] = useState<string[]>([]);
   const [alertMessage, setAlertMessage] = useState<undefined | AlertMessage>(
     undefined
@@ -21,6 +23,7 @@ export default function FormsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const accordionParam = searchParams.get('accordion');
 
+  const { createNachklausurAntrag, createBachelorAnmeldung, getDozentNames } = useApiForm();
   const { createNachklausurAntrag, createBachelorAnmeldung, getDozentNames } = useApiForm();
 
   const handleAccordionChange = (id: string, expanded: boolean) => {
@@ -50,6 +53,7 @@ export default function FormsPage() {
       header: t('pages.forms.bachelorAnmeldung.title'),
       children: (
         <BachelorAnmeldung
+          dozNames={dozNames}
           dozNames={dozNames}
           onApi={createBachelorAnmeldung}
           onAlert={setAlertMessage}
