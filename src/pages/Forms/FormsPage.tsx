@@ -6,11 +6,12 @@ import { Box } from '@mui/joy';
 import { Accordion } from '@agile-software/shared-components';
 import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
 import { useSearchParams } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AlertMessage } from '@/@custom-types/formTypes';
 import { Alert, Snackbar } from '@mui/material';
 
 export default function FormsPage() {
+  const [dozNames, setDozNames] = useState<string[]>([]);
   const [alertMessage, setAlertMessage] = useState<undefined | AlertMessage>(
     undefined
   );
@@ -20,7 +21,7 @@ export default function FormsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const accordionParam = searchParams.get('accordion');
 
-  const { createNachklausurAntrag, createBachelorAnmeldung } = useApiForm();
+  const { createNachklausurAntrag, createBachelorAnmeldung, getDozentNames } = useApiForm();
 
   const handleAccordionChange = (id: string, expanded: boolean) => {
     if (expanded) {
@@ -49,6 +50,7 @@ export default function FormsPage() {
       header: t('pages.forms.bachelorAnmeldung.title'),
       children: (
         <BachelorAnmeldung
+          dozNames={dozNames}
           onApi={createBachelorAnmeldung}
           onAlert={setAlertMessage}
         />
@@ -83,6 +85,25 @@ export default function FormsPage() {
     }
   };
   */
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchDozNames = async () => {
+      try {
+        const res = await getDozentNames();
+        if(isMounted && res.ok){
+          const data = await res.json();
+          setDozNames(data)
+        }
+      } catch {
+        //
+      }
+      setDozNames(['Prof. Fabian Volk', 'Dr. Johann Daubert', 'Dr. Dr. Edgar Hutter', 'Prof. Dek. Viktor Scheidemann']);
+    }
+    fetchDozNames()
+
+    return () => {isMounted = false;}
+  }, [])
 
   return (
     <Box>

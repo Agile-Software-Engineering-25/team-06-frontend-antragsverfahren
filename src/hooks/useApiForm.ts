@@ -9,6 +9,14 @@ import type {
 export default function useApiForm() {
   const axiosInstance = useAxiosInstance(BACKEND_BASE_URL);
 
+  const getDozentNames = useCallback(
+    async () => {
+      const response = await axiosInstance.get('/dozenten/names');
+      return response.data;
+    },
+    [axiosInstance]
+  );
+
   const createNachklausurAntrag = useCallback(
     async (data: NachklausurAntrag) => {
       const response = await axiosInstance.post('/nachklausur', data);
@@ -35,6 +43,7 @@ export default function useApiForm() {
   }, [axiosInstance]);
 
   return {
+    getDozentNames,
     createNachklausurAntrag,
     createBachelorAnmeldung,
     getStudienbescheinigung,
