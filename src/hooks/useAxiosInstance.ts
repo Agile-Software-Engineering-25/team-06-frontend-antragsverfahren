@@ -5,13 +5,14 @@ import useUser from './useUser';
 
 const useAxiosInstance = (baseUrl: string) => {
   const user = useUser();
+  let token = user.getAccessToken();
   
   return useMemo(() => {
     const instance = axios.create({ baseURL: baseUrl });
     // Interceptor für Authorization-Header
     instance.interceptors.request.use((config) => {
       config.headers = config.headers || {};
-      const token = user.getAccessToken();
+      token = user.getAccessToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -22,7 +23,7 @@ const useAxiosInstance = (baseUrl: string) => {
     });
     console.log("AxiosUpdate")
     return instance;
-  }, [baseUrl, user]);
+  }, [baseUrl, token]);
 };
 
 export default useAxiosInstance;
