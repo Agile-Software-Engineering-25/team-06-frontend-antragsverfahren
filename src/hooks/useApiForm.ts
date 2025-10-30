@@ -34,11 +34,9 @@ export default function useApiForm() {
   );
 
   const getStudienbescheinigung = useCallback(async () => {
-    const response = await axiosInstance.post(
-      '/studienbescheinigung',
-      {},
-      { responseType: 'blob' }
-    );
+    const response = await axiosInstance.get('/studienbescheinigung', {
+      responseType: 'blob',
+    });
     return response.data;
   }, [axiosInstance]);
 
