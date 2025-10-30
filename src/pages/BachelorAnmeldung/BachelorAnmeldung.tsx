@@ -11,12 +11,14 @@ import type {
 import FileUpload from '../../components/FileUpload/FileUpload.tsx';
 import EmailIcon from '@mui/icons-material/Email';
 
-const mockedPruefer = ['Volk', 'Daubert', 'Hutter', 'Scheidemann'];
+const studgChoice = ["Angewandte Mathematik B.Sc.", "Biotechnologie B.Sc.", "Biotechnologie M.Sc.", "Chemie B.Sc.", "Chemie M.Sc.", "Informatik B.Sc.", "Informatik M.Sc.", "Maschinenbau B.Sc.", "Maschinenbau M.Sc.", "Physik B.Sc.", "Physik M.Sc."];
 
 export default function BachelorAnmeldung({
+  dozNames,
   onApi,
   onAlert,
 }: {
+  dozNames: string[];
   onApi: (data: BachelorAnmeldung) => Promise<void>;
   onAlert: React.Dispatch<React.SetStateAction<AlertMessage | undefined>>;
 }) {
@@ -97,19 +99,10 @@ export default function BachelorAnmeldung({
           required
           placeholder={t('pages.forms.bachelorAnmeldung.studiengangAuswählen')}
         >
-          <Option value="Angewandte Mathematik (B.Sc.)">
-            Angewandte Mathematik (B.Sc.)
-          </Option>
-          <Option value="Biotechnologie B.Sc.">Biotechnologie B.Sc.</Option>
-          <Option value="Biotechnologie M.Sc.">Biotechnologie M.Sc.</Option>
-          <Option value="Chemie B.Sc.">Chemie B.Sc.</Option>
-          <Option value="Chemie M.Sc.">Chemie M.Sc.</Option>
-          <Option value="Informatik B.Sc.">Informatik B.Sc.</Option>
-          <Option value="Informatik M.Sc.">Informatik M.Sc.</Option>
-          <Option value="Maschinenbau B.Sc.">Maschinenbau B.Sc.</Option>
-          <Option value="Maschinenbau M.Sc.">Maschinenbau M.Sc.</Option>
-          <Option value="Physik B.Sc.">Physik B.Sc.</Option>
-          <Option value="Physik M.Sc.">Physik M.Sc.</Option>
+          {studgChoice.map((name) => (
+            <Option key={name} value={name}>{name}</Option>
+          ))}
+
         </Select>
       </FormControl>
 
@@ -130,7 +123,7 @@ export default function BachelorAnmeldung({
           placeholder={t('pages.forms.bachelorAnmeldung.prüferLabel')}
         >
           <div>
-            {mockedPruefer.map((p) => (
+            {dozNames.map((p) => (
               <Option key={p} value={p}>
                 {p}
               </Option>
