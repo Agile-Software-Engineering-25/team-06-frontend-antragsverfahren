@@ -87,7 +87,7 @@ export default function FormsPage() {
     return () => {
       isMounted = false;
     };
-  }, [getDozentNames]);
+  }, []);
 
 
   return (
