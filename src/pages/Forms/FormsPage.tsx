@@ -139,9 +139,8 @@ export default function FormsPage() {
           autoHideDuration={2000}
           onClose={() => setAlertMessage(undefined)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          color={alertMessage.variant as any}
         >
-          <Alert severity="success" variant="filled" sx={{paddingTop: "12px" }}>
+          <Alert severity={alertMessage.variant as any} variant="filled" sx={{paddingTop: "12px" }}>
             {alertMessage.message}
           </Alert>
         </Snackbar>
