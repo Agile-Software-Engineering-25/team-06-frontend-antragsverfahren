@@ -6,7 +6,7 @@ import { Box } from '@mui/joy';
 import { Accordion } from '@agile-software/shared-components';
 import StudienbescheinigungCard from '@components/Studienbescheinigung/StudienbescheinigungComponent.tsx';
 import { useSearchParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { AlertMessage } from '@/@custom-types/formTypes';
 import { Alert, Snackbar } from '@mui/material';
 
@@ -16,7 +16,6 @@ const fallbackDozNames = [
   'Dr. Dr. Edgar Hutter',
   'Prof. Dek. Viktor Scheidemann',
 ];
-
 
 export default function FormsPage() {
   const [dozNames, setDozNames] = useState<string[]>([]);
@@ -29,7 +28,8 @@ export default function FormsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const accordionParam = searchParams.get('accordion');
 
-  const { createNachklausurAntrag, createBachelorAnmeldung, getDozentNames } = useApiForm();
+  const { createNachklausurAntrag, createBachelorAnmeldung, getDozentNames } =
+    useApiForm();
 
   const handleAccordionChange = (id: string, expanded: boolean) => {
     if (expanded) {
@@ -64,31 +64,19 @@ export default function FormsPage() {
         />
       ),
       expand: accordionParam === 'bachelor',
-      onChange: (expanded: boolean) =>
-        handleAccordionChange('bachelor', expanded),
+      onChange: async (expanded: boolean) => {
+        if (dozNames.length === 0) {
+          try {
+            const data = await getDozentNames();
+              setDozNames(Array.isArray(data) ? data : fallbackDozNames);
+          } catch {
+            setDozNames(fallbackDozNames);
+          }
+        }
+        handleAccordionChange('bachelor', expanded);
+      },
     },
   ];
-
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchDozNames = async () => {
-      try {
-        const data = await getDozentNames();
-        if (isMounted) setDozNames(Array.isArray(data) ? data : fallbackDozNames);
-      } catch {
-        if (isMounted) setDozNames(fallbackDozNames);
-      }
-    };
-
-    if(!dozNames || dozNames.length == 0) fetchDozNames();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
 
   return (
     <Box>
@@ -146,7 +134,11 @@ export default function FormsPage() {
           onClose={() => setAlertMessage(undefined)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
-          <Alert severity={alertMessage.variant as any} variant="filled" sx={{paddingTop: "12px" }}>
+          <Alert
+            severity={alertMessage.variant as any}
+            variant="filled"
+            sx={{ paddingTop: '12px' }}
+          >
             {alertMessage.message}
           </Alert>
         </Snackbar>
