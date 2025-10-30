@@ -82,7 +82,7 @@ export default function FormsPage() {
       }
     };
 
-    fetchDozNames();
+    if(!dozNames || dozNames.length == 0) fetchDozNames();
 
     return () => {
       isMounted = false;
