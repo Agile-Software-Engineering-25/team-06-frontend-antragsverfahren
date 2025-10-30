@@ -11,8 +11,6 @@ import type {
 import FileUpload from '../../components/FileUpload/FileUpload.tsx';
 import EmailIcon from '@mui/icons-material/Email';
 
-const studgChoice = ["Angewandte Mathematik B.Sc.", "Biotechnologie B.Sc.", "Biotechnologie M.Sc.", "Chemie B.Sc.", "Chemie M.Sc.", "Informatik B.Sc.", "Informatik M.Sc.", "Maschinenbau B.Sc.", "Maschinenbau M.Sc.", "Physik B.Sc.", "Physik M.Sc."];
-
 export default function BachelorAnmeldung({
   dozNames,
   onApi,
@@ -24,21 +22,15 @@ export default function BachelorAnmeldung({
 }) {
   const { t } = useTranslation();
 
-  const studiengang = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
   const thema = useRef('');
   const prüfer = useRef('');
-  // const [exposeFile, setExposeFile] = useState<File | null>(null);
+  const expose = useRef<File | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Basic validation
-    if (
-      !studiengang.current ||
-      !prüfungstermin.current ||
-      !thema.current ||
-      !prüfer.current
-    ) {
+    if (!prüfungstermin.current || !thema.current || !prüfer.current || !expose.current) {
       onAlert({
         isOn: true,
         variant: 'error',
@@ -46,7 +38,7 @@ export default function BachelorAnmeldung({
           t('pages.forms.bachelorAnmeldung.submitError') +
           ' (' +
           t(
-            `pages.forms.bachelorAnmeldung.${(!studiengang.current && 'studiengang') || (!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer')}Label`
+            `pages.forms.bachelorAnmeldung.${(!prüfungstermin.current && 'prüfungstermin') || (!thema.current && 'thema') || (!prüfer.current && 'prüfer') || (!expose.current && 'expose')}Label`
           ) +
           ')',
       });
@@ -55,11 +47,10 @@ export default function BachelorAnmeldung({
     }
 
     const bachelorAnmeldung: BachelorAnmeldung = {
-      studiengang: studiengang.current,
       prüfungstermin: prüfungstermin.current!.format('DD-MM-YYYY'),
       thema: thema.current,
       prüfer: prüfer.current,
-      // expose: exposeFile,
+      expose: expose.current,
     };
 
     try {
@@ -91,21 +82,6 @@ export default function BachelorAnmeldung({
         p: 2,
       }}
     >
-      <FormControl>
-        <Select
-          onChange={(_, newValue: string | null) =>
-            (studiengang.current = newValue ?? '')
-          }
-          required
-          placeholder={t('pages.forms.bachelorAnmeldung.studiengangAuswählen')}
-        >
-          {studgChoice.map((name) => (
-            <Option key={name} value={name}>{name}</Option>
-          ))}
-
-        </Select>
-      </FormControl>
-
       <FormControl>
         <Input
           onChange={(e) => (thema.current = e.target.value)}
@@ -148,11 +124,11 @@ export default function BachelorAnmeldung({
       </FormControl>
 
       <FileUpload
-        onFile={() => console.log('Expose')} //TODO
+        onFile={(file) => (expose.current = file)}
         sx={{
           width: 'auto',
           alignSelf: 'flex-start',
-          px: 3,
+          px: 3
         }}
       ></FileUpload>
 
