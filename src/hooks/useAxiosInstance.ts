@@ -21,7 +21,7 @@ const useAxiosInstance = (baseUrl: string) => {
       return config;
     });
     return instance;
-  }, [baseUrl]);
+  }, [baseUrl, token]);
 };
 
 export default useAxiosInstance;

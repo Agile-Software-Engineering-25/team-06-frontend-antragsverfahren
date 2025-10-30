@@ -64,10 +64,9 @@ export default function FileUpload({
         <Box>
           <List
             sx={{
-              my: 2,
               '--List-radius': '10px',
               border: '1px solid #4b4b4b79',
-              p: 1,
+              p: "10px 0 10px 10px",
             }}
           >
             <ListItem

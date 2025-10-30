@@ -27,18 +27,25 @@ export default function useApiForm() {
 
   const createBachelorAnmeldung = useCallback(
     async (data: BachelorAnmeldung) => {
-      const response = await axiosInstance.post('/bachelorarbeit', data);
+      const formData = new FormData();
+      formData.append('thema', data.thema);
+      formData.append('prüfer', data.prüfer);
+      formData.append('prüfungstermin', data.prüfungstermin);
+      formData.append('expose', data.expose);
+      const response = await axiosInstance.post('/bachelorarbeit', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response.data;
     },
     [axiosInstance]
   );
 
   const getStudienbescheinigung = useCallback(async () => {
-    const response = await axiosInstance.post(
-      '/studienbescheinigung',
-      {},
-      { responseType: 'blob' }
-    );
+    const response = await axiosInstance.get('/studienbescheinigung', {
+      responseType: 'blob',
+    });
     return response.data;
   }, [axiosInstance]);
 

@@ -96,9 +96,8 @@ export default function FormsPage() {
           setDozNames(data)
         }
       } catch {
-        //
+        setDozNames(['Prof. Fabian Volk', 'Dr. Johann Daubert', 'Dr. Dr. Edgar Hutter', 'Prof. Dek. Viktor Scheidemann']);
       }
-      setDozNames(['Prof. Fabian Volk', 'Dr. Johann Daubert', 'Dr. Dr. Edgar Hutter', 'Prof. Dek. Viktor Scheidemann']);
     }
     fetchDozNames()
 

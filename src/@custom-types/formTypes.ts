@@ -4,10 +4,10 @@ export interface NachklausurAntrag {
 }
 
 export interface BachelorAnmeldung {
-  studiengang: string;
   thema: string;
   prüfer: string;
   prüfungstermin: string;
+  expose: File;
 }
 
 
