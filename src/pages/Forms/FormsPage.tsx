@@ -10,6 +10,14 @@ import { useEffect, useState } from 'react';
 import type { AlertMessage } from '@/@custom-types/formTypes';
 import { Alert, Snackbar } from '@mui/material';
 
+const fallbackDozNames = [
+  'Prof. Fabian Volk',
+  'Dr. Johann Daubert',
+  'Dr. Dr. Edgar Hutter',
+  'Prof. Dek. Viktor Scheidemann',
+];
+
+
 export default function FormsPage() {
   const [dozNames, setDozNames] = useState<string[]>([]);
   const [alertMessage, setAlertMessage] = useState<undefined | AlertMessage>(
@@ -61,48 +69,26 @@ export default function FormsPage() {
     },
   ];
 
-  /*
- const [exposeFile, setExposeFile] = React.useState<File | null>(null);
-
-  const onBachelorthesisExposeSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setExposeFile(file);
-      alert('Datei ausgewählt: ' + file.name);
-    }
-  };
-
-  const onBachelorthesisExpose = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      await uploadBachelorthesisExpose(file);
-      alert('Datei erfolgreich hochgeladen');
-    } catch (err) {
-      console.error(err);
-      alert('Upload fehlgeschlagen');
-    }
-  };
-  */
 
   useEffect(() => {
     let isMounted = true;
+
     const fetchDozNames = async () => {
       try {
-        const res = await getDozentNames();
-        if(isMounted && res.ok){
-          const data = await res.json();
-          setDozNames(data)
-        }
+        const data = await getDozentNames();
+        if (isMounted) setDozNames(Array.isArray(data) ? data : fallbackDozNames);
       } catch {
-        setDozNames(['Prof. Fabian Volk', 'Dr. Johann Daubert', 'Dr. Dr. Edgar Hutter', 'Prof. Dek. Viktor Scheidemann']);
+        if (isMounted) setDozNames(fallbackDozNames);
       }
-    }
-    fetchDozNames()
+    };
 
-    return () => {isMounted = false;}
-  }, [])
+    fetchDozNames();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [getDozentNames]);
+
 
   return (
     <Box>
