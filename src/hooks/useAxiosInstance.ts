@@ -20,6 +20,7 @@ const useAxiosInstance = (baseUrl: string) => {
       }
       return config;
     });
+    console.log("AxiosUpdate")
     return instance;
   }, [baseUrl, user]);
 };
