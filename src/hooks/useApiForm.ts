@@ -19,7 +19,10 @@ export default function useApiForm() {
 
   const createNachklausurAntrag = useCallback(
     async (data: NachklausurAntrag) => {
-      const response = await axiosInstance.post('/nachklausur', data);
+      const formData = new FormData();
+      formData.append('modul', data.modul);
+      formData.append('prüfungstermin', data.prüfungstermin);
+      const response = await axiosInstance.post('/nachklausur', formData);
       return response.data;
     },
     [axiosInstance]
@@ -32,7 +35,7 @@ export default function useApiForm() {
       formData.append('prüfer', data.prüfer);
       formData.append('prüfungstermin', data.prüfungstermin);
       formData.append('expose', data.expose);
-      const response = await axiosInstance.post('/bachelorarbeit', data, {
+      const response = await axiosInstance.post('/bachelorarbeit', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
