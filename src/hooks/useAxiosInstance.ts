@@ -5,14 +5,13 @@ import useUser from './useUser';
 
 const useAxiosInstance = (baseUrl: string) => {
   const user = useUser();
-  let token = user.getAccessToken();
+  const token = user.getAccessToken();
   
   return useMemo(() => {
     const instance = axios.create({ baseURL: baseUrl });
     // Interceptor für Authorization-Header
     instance.interceptors.request.use((config) => {
       config.headers = config.headers || {};
-      token = user.getAccessToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
