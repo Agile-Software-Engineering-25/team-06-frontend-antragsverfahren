@@ -14,6 +14,11 @@ export default function NachklausurAntrag({
   onAlert: React.Dispatch<React.SetStateAction<AlertMessage | undefined>>;
 }) {
   const { t } = useTranslation();
+  const url = window.location.href.toLowerCase();
+  let vorauswahl = '';
+  if (url.includes('mathematik')) vorauswahl = 'Mathematik';
+  else if (url.includes('informatik')) vorauswahl = 'Informatik';
+  else if (url.includes('physik')) vorauswahl = 'Physik';
 
   const modul = useRef('');
   const prüfungstermin = useRef<Dayjs | null>(null);
@@ -74,6 +79,7 @@ export default function NachklausurAntrag({
     >
       <FormControl>
         <Select
+          defaultValue={vorauswahl}
           onChange={(_, newValue: string | null) =>
             (modul.current = newValue ?? '')
           }
