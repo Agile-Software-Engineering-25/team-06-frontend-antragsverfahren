@@ -53,9 +53,6 @@ export default function useApiForm() {
     const response = await axiosInstance.get('/studienbescheinigung', {
       responseType: 'blob',
     });
-    const response = await axiosInstance.get('/studienbescheinigung', {
-      responseType: 'blob',
-    });
     return response.data;
   }, [axiosInstance]);
 
