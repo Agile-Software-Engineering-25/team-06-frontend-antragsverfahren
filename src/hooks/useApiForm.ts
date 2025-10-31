@@ -22,7 +22,11 @@ export default function useApiForm() {
       const formData = new FormData();
       formData.append('modul', data.modul);
       formData.append('prüfungstermin', data.prüfungstermin);
-      const response = await axiosInstance.post('/nachklausur', formData);
+      const response = await axiosInstance.post('/nachklausur', formData,  {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response.data;
     },
     [axiosInstance]
